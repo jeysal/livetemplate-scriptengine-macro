@@ -25,6 +25,16 @@ class ResultConverterTest extends Specification {
         ]
     }
 
+    def 'toStrings the first entry of a Map or null if empty into a TextResult'() {
+        expect:
+        (conv.call(map) as TextResult).text == res
+
+        where:
+        map                  || res
+        [abc: 42, xyz: 1337] || 'abc=42'
+        [:]                  || 'null'
+    }
+
     def 'wraps a Runnable in an InvokeActionResult'() {
         given:
         final run = { -> } as Runnable
