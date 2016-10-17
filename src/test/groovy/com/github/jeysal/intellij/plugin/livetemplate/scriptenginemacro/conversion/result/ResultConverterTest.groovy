@@ -4,8 +4,6 @@ import com.intellij.codeInsight.template.InvokeActionResult
 import com.intellij.codeInsight.template.TextResult
 import spock.lang.Specification
 
-import java.util.stream.Stream
-
 /**
  * @author seckinger
  * @since 10/17/16
@@ -13,21 +11,16 @@ import java.util.stream.Stream
 class ResultConverterTest extends Specification {
     final conv = new ResultConverter()
 
-    def 'toStrings the first element of a Spliterator into a TextResult'() {
-        given:
-        final obj = new Object()
-        final res = conv(Spliterators.spliterator([obj], 0)) as TextResult
-
+    def 'toStrings the first element of a Collection-ish or null if empty into a TextResult'() {
         expect:
-        res.text == obj.toString()
-    }
+        (conv.call(collectionIsh([42, 1337])) as TextResult).text == '42'
+        (conv.call(collectionIsh([])) as TextResult).text == 'null'
 
-    def 'converts an empty Spliterator to null toStringed into a TextResult'() {
-        given:
-        final res = conv(Spliterators.emptySpliterator()) as TextResult
-
-        expect:
-        res.text == 'null'
+        where:
+        collectionIsh << [
+                Spliterators.&spliterator.rcurry(0),
+                { it.stream() }
+        ]
     }
 
     def 'wraps a Runnable in an InvokeActionResult'() {
@@ -37,23 +30,6 @@ class ResultConverterTest extends Specification {
 
         expect:
         res.action == run
-    }
-
-    def 'toStrings the first element of a Stream into a TextResult'() {
-        given:
-        final obj = new Object()
-        final res = conv([obj].stream()) as TextResult
-
-        expect:
-        res.text == obj.toString()
-    }
-
-    def 'converts an empty Stream to null toStringed into a TextResult'() {
-        given:
-        final res = conv(Stream.empty()) as TextResult
-
-        expect:
-        res.text == 'null'
     }
 
     def 'toStrings any object into a TextResult'() {
