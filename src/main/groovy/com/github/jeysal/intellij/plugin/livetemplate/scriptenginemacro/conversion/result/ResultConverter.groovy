@@ -3,6 +3,7 @@ package com.github.jeysal.intellij.plugin.livetemplate.scriptenginemacro.convers
 import com.github.jeysal.intellij.plugin.livetemplate.scriptenginemacro.conversion.generic.BaseStreamConverter
 import com.github.jeysal.intellij.plugin.livetemplate.scriptenginemacro.conversion.generic.IterableConverter
 import com.github.jeysal.intellij.plugin.livetemplate.scriptenginemacro.conversion.generic.IteratorConverter
+import com.github.jeysal.intellij.plugin.livetemplate.scriptenginemacro.conversion.generic.MapConverter
 
 /**
  * @author seckinger
@@ -12,6 +13,7 @@ class ResultConverter extends DefaultResultConverter implements
         BaseStreamConverter,
         IterableConverter,
         IteratorConverter,
+        MapConverter,
         RunnableInvokeActionResultConverter,
         SpliteratorResultConverter {
 }
