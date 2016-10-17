@@ -4,6 +4,8 @@ import com.intellij.codeInsight.template.InvokeActionResult
 import com.intellij.codeInsight.template.TextResult
 import spock.lang.Specification
 
+import java.util.stream.Stream
+
 /**
  * @author seckinger
  * @since 10/17/16
@@ -35,6 +37,23 @@ class ResultConverterTest extends Specification {
 
         expect:
         res.action == run
+    }
+
+    def 'toStrings the first element of a Stream into a TextResult'() {
+        given:
+        final obj = new Object()
+        final res = conv([obj].stream()) as TextResult
+
+        expect:
+        res.text == obj.toString()
+    }
+
+    def 'converts an empty Stream to null toStringed into a TextResult'() {
+        given:
+        final res = conv(Stream.empty()) as TextResult
+
+        expect:
+        res.text == 'null'
     }
 
     def 'toStrings any object into a TextResult'() {
