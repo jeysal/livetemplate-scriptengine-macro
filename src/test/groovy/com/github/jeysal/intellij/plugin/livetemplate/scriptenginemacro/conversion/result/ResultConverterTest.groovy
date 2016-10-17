@@ -18,6 +18,7 @@ class ResultConverterTest extends Specification {
 
         where:
         collectionIsh << [
+                { it.iterator() },
                 Spliterators.&spliterator.rcurry(0),
                 { it.stream() }
         ]
