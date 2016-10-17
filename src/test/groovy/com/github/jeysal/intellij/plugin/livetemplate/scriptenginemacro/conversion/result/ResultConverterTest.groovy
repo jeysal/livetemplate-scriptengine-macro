@@ -1,5 +1,6 @@
 package com.github.jeysal.intellij.plugin.livetemplate.scriptenginemacro.conversion.result
 
+import com.intellij.codeInsight.template.InvokeActionResult
 import com.intellij.codeInsight.template.TextResult
 import spock.lang.Specification
 
@@ -9,6 +10,15 @@ import spock.lang.Specification
  */
 class ResultConverterTest extends Specification {
     final conv = new ResultConverter()
+
+    def 'wraps a Runnable in an InvokeActionResult'() {
+        given:
+        final run = { -> } as Runnable
+        final res = conv(run) as InvokeActionResult
+
+        expect:
+        res.action == run
+    }
 
     def 'toStrings any object into a TextResult'() {
         given:
