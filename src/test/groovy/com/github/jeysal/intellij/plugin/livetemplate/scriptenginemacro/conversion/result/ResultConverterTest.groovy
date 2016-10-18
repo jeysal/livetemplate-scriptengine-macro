@@ -4,6 +4,8 @@ import com.intellij.codeInsight.template.InvokeActionResult
 import com.intellij.codeInsight.template.TextResult
 import spock.lang.Specification
 
+import java.util.stream.Stream
+
 /**
  * @author seckinger
  * @since 10/17/16
@@ -13,26 +15,18 @@ class ResultConverterTest extends Specification {
 
     def 'toStrings the first element of a Collection-ish or null if empty into a TextResult'() {
         expect:
-        (conv.call(collectionIsh([42, 1337])) as TextResult).text == '42'
-        (conv.call(collectionIsh([])) as TextResult).text == 'null'
+        (conv.call(collection) as TextResult).text == res
 
         where:
-        collectionIsh << [
-                Closure.IDENTITY,
-                { it.iterator() },
-                Spliterators.&spliterator.rcurry(0),
-                { it.stream() }
+        collection << [
+                [42, 1337], [],
+                [42, 1337].iterator(), [].iterator(),
+                Spliterators.spliterator([42, 1337], 0), Spliterators.emptySpliterator(),
+                Stream.of(42, 1337), Stream.empty(),
+                [abc: 42, xyz: 1337], [:]
         ]
-    }
-
-    def 'toStrings the first entry of a Map or null if empty into a TextResult'() {
-        expect:
-        (conv.call(map) as TextResult).text == res
-
-        where:
-        map                  || res
-        [abc: 42, xyz: 1337] || 'abc=42'
-        [:]                  || 'null'
+        res << ['42', 'null'] * 4 +
+                ['abc=42', 'null']
     }
 
     def 'wraps a Runnable in an InvokeActionResult'() {
