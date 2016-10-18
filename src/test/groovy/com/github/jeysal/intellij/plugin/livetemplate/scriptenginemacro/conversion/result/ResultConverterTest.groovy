@@ -37,6 +37,14 @@ class ResultConverterTest extends Specification {
         res.text == 'asdf'
     }
 
+    def 'fully reads an InputStream into a TextResult'() {
+        given:
+        final res = conv(new ByteArrayInputStream('asdf'.bytes)) as TextResult
+
+        expect:
+        res.text == 'asdf'
+    }
+
     def 'wraps a Runnable in an InvokeActionResult'() {
         given:
         final run = { -> } as Runnable
