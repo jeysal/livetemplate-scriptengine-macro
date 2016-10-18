@@ -29,6 +29,14 @@ class ResultConverterTest extends Specification {
                 ['abc=42', 'null']
     }
 
+    def 'fully reads a Reader into a TextResult'() {
+        given:
+        final res = conv(new StringReader('asdf')) as TextResult
+
+        expect:
+        res.text == 'asdf'
+    }
+
     def 'wraps a Runnable in an InvokeActionResult'() {
         given:
         final run = { -> } as Runnable
