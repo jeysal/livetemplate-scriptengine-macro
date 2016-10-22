@@ -9,6 +9,19 @@ import spock.lang.Specification
 class LookupElementsConverterTest extends Specification {
     final conv = new LookupElementsConverter()
 
+    def 'wraps each element of a Collection-ish in a LookupElement'() {
+        expect:
+        conv.call(collection).collect { it.lookupString } == res
+
+        where:
+        collection << [
+                Spliterators.spliterator([42, 1337], 0), Spliterators.emptySpliterator()
+        ]
+        res << [
+                ['42', '1337'], []
+        ]
+    }
+
     def 'wraps any object into a LookupElement'() {
         given:
         final obj = new Object()
