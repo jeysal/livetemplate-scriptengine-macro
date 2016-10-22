@@ -4,5 +4,6 @@ package com.github.jeysal.intellij.plugin.livetemplate.scriptenginemacro.convers
  * @author seckinger
  * @since 10/18/16
  */
-class LookupElementsConverter extends DefaultLookupElementsConverter {
+class LookupElementsConverter extends DefaultLookupElementsConverter implements
+        SpliteratorLookupElementsConverter {
 }
