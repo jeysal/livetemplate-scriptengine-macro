@@ -23,6 +23,15 @@ class LookupElementsConverterTest extends Specification {
         res << [[42, 1337], []] * 2
     }
 
+    def 'fully reads an InputStream into a LookupElement'() {
+        given:
+        def res = conv.call(new ByteArrayInputStream('asdf'.bytes))
+
+        expect:
+        res.length == 1
+        res[0].object == 'asdf'
+    }
+
     def 'wraps any object into a LookupElement'() {
         given:
         final obj = new Object()
