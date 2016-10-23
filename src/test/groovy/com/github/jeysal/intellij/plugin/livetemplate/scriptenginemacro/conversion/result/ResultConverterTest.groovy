@@ -42,7 +42,7 @@ class ResultConverterTest extends Specification {
     def 'wraps a Runnable in an InvokeActionResult'() {
         given:
         final run = { -> } as Runnable
-        final res = conv(run) as InvokeActionResult
+        final res = conv.call(run) as InvokeActionResult
 
         expect:
         res.action == run
@@ -51,7 +51,7 @@ class ResultConverterTest extends Specification {
     def 'toStrings any object into a TextResult'() {
         given:
         final obj = new Object()
-        final res = conv(obj) as TextResult
+        final res = conv.call(obj) as TextResult
 
         expect:
         res.text == obj.toString()

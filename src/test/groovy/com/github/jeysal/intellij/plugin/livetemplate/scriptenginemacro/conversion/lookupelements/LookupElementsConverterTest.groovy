@@ -37,7 +37,7 @@ class LookupElementsConverterTest extends Specification {
     def 'wraps any object into a LookupElement'() {
         given:
         final obj = new Object()
-        final res = conv(obj)
+        final res = conv.call(obj)
 
         expect:
         res.collect { it.object } == [obj]
