@@ -20,9 +20,11 @@ class LookupElementsConverterTest extends Specification {
                 [42, 1337], [],
                 [42, 1337].iterator(), [].iterator(),
                 Spliterators.spliterator([42, 1337], 0), Spliterators.emptySpliterator(),
-                Stream.of(42, 1337), Stream.empty()
+                Stream.of(42, 1337), Stream.empty(),
+                [abc: 42, xyz: 1337], [:]
         ]
-        res << [[42, 1337], []] * 4
+        res << [[42, 1337], []] * 4 +
+                [[abc: 42, xyz: 1337].entrySet() as List, []]
     }
 
     def 'flattens a Collection before wrapping the elements'() {
