@@ -13,14 +13,14 @@ class LookupElementsConverterTest extends Specification {
 
     def 'wraps each element of a Collection-ish in a LookupElement'() {
         expect:
-        conv.call(collection).collect { it.lookupString } == res
+        conv.call(collection).collect { it.object } == res
 
         where:
         collection << [
                 Spliterators.spliterator([42, 1337], 0), Spliterators.emptySpliterator(),
                 Stream.of(42, 1337), Stream.empty()
         ]
-        res << [['42', '1337'], []] * 2
+        res << [[42, 1337], []] * 2
     }
 
     def 'wraps any object into a LookupElement'() {
