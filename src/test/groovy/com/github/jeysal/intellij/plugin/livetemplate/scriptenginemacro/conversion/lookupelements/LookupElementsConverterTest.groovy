@@ -24,6 +24,11 @@ class LookupElementsConverterTest extends Specification {
         res << [[42, 1337], []] * 3
     }
 
+    def 'flattens a Collection before wrapping the elements'() {
+        expect:
+        conv.call([[1, 2], 3]).collect { it.object } == [1, 2, 3]
+    }
+
     def 'fully reads an InputStream into a LookupElement'() {
         expect:
         conv.call(new ByteArrayInputStream('asdf'.bytes)).collect { it.object } == ['asdf']
