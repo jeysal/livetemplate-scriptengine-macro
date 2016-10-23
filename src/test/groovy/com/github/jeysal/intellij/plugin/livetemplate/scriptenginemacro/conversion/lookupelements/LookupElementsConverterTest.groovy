@@ -17,10 +17,11 @@ class LookupElementsConverterTest extends Specification {
 
         where:
         collection << [
+                [42, 1337], [],
                 Spliterators.spliterator([42, 1337], 0), Spliterators.emptySpliterator(),
                 Stream.of(42, 1337), Stream.empty()
         ]
-        res << [[42, 1337], []] * 2
+        res << [[42, 1337], []] * 3
     }
 
     def 'fully reads an InputStream into a LookupElement'() {
