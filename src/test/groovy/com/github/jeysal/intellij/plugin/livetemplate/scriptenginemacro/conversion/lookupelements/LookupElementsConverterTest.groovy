@@ -24,12 +24,8 @@ class LookupElementsConverterTest extends Specification {
     }
 
     def 'fully reads an InputStream into a LookupElement'() {
-        given:
-        def res = conv.call(new ByteArrayInputStream('asdf'.bytes))
-
         expect:
-        res.length == 1
-        res[0].object == 'asdf'
+        conv.call(new ByteArrayInputStream('asdf'.bytes)).collect { it.object } == ['asdf']
     }
 
     def 'wraps any object into a LookupElement'() {
@@ -38,8 +34,7 @@ class LookupElementsConverterTest extends Specification {
         final res = conv(obj)
 
         expect:
-        res.length == 1
-        res[0].object == obj
+        res.collect { it.object } == [obj]
     }
 
     def 'converts null to an empty LookupElement array'() {

@@ -30,19 +30,13 @@ class ResultConverterTest extends Specification {
     }
 
     def 'fully reads a Reader into a TextResult'() {
-        given:
-        final res = conv(new StringReader('asdf')) as TextResult
-
         expect:
-        res.text == 'asdf'
+        (conv.call(new StringReader('asdf')) as TextResult).text == 'asdf'
     }
 
     def 'fully reads an InputStream into a TextResult'() {
-        given:
-        final res = conv(new ByteArrayInputStream('asdf'.bytes)) as TextResult
-
         expect:
-        res.text == 'asdf'
+        (conv.call(new ByteArrayInputStream('asdf'.bytes)) as TextResult).text == 'asdf'
     }
 
     def 'wraps a Runnable in an InvokeActionResult'() {
@@ -64,10 +58,7 @@ class ResultConverterTest extends Specification {
     }
 
     def 'toStrings null into a TextResult'() {
-        given:
-        final res = conv(null) as TextResult
-
         expect:
-        res.text == 'null'
+        (conv.call(null) as TextResult).text == 'null'
     }
 }
