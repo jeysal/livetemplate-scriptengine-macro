@@ -2,6 +2,8 @@ package com.github.jeysal.intellij.plugin.livetemplate.scriptenginemacro.convers
 
 import spock.lang.Specification
 
+import java.util.stream.Stream
+
 /**
  * @author seckinger
  * @since 10/18/16
@@ -15,11 +17,10 @@ class LookupElementsConverterTest extends Specification {
 
         where:
         collection << [
-                Spliterators.spliterator([42, 1337], 0), Spliterators.emptySpliterator()
+                Spliterators.spliterator([42, 1337], 0), Spliterators.emptySpliterator(),
+                Stream.of(42, 1337), Stream.empty()
         ]
-        res << [
-                ['42', '1337'], []
-        ]
+        res << [['42', '1337'], []] * 2
     }
 
     def 'wraps any object into a LookupElement'() {
