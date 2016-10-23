@@ -32,6 +32,11 @@ class LookupElementsConverterTest extends Specification {
         conv.call([[1, 2], 3]).collect { it.object } == [1, 2, 3]
     }
 
+    def 'fully reads a Reader into a LookupElement'() {
+        expect:
+        conv.call(new StringReader('asdf')).collect { it.object } == ['asdf']
+    }
+
     def 'fully reads an InputStream into a LookupElement'() {
         expect:
         conv.call(new ByteArrayInputStream('asdf'.bytes)).collect { it.object } == ['asdf']
