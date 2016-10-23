@@ -1,6 +1,7 @@
 package com.github.jeysal.intellij.plugin.livetemplate.scriptenginemacro.conversion.lookupelements
 
 import com.github.jeysal.intellij.plugin.livetemplate.scriptenginemacro.conversion.generic.BaseStreamConverter
+import com.github.jeysal.intellij.plugin.livetemplate.scriptenginemacro.conversion.generic.InputStreamConverter
 
 /**
  * @author seckinger
@@ -8,5 +9,6 @@ import com.github.jeysal.intellij.plugin.livetemplate.scriptenginemacro.conversi
  */
 class LookupElementsConverter extends DefaultLookupElementsConverter implements
         BaseStreamConverter,
+        InputStreamConverter,
         SpliteratorLookupElementsConverter {
 }
