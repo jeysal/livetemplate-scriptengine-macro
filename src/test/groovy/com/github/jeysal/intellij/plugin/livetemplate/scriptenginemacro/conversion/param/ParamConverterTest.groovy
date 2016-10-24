@@ -2,6 +2,7 @@ package com.github.jeysal.intellij.plugin.livetemplate.scriptenginemacro.convers
 
 import com.intellij.codeInsight.template.InvokeActionResult
 import com.intellij.codeInsight.template.Result
+import com.intellij.codeInsight.template.TextResult
 import spock.lang.Specification
 
 /**
@@ -10,6 +11,11 @@ import spock.lang.Specification
  */
 class ParamConverterTest extends Specification {
     def conv = new ParamConverter()
+
+    def 'unwraps a TextResult'() {
+        expect:
+        conv.call(new TextResult('asdf')) == 'asdf'
+    }
 
     def 'unwraps an InvokeActionsResult'() {
         given:
