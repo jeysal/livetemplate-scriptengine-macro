@@ -15,8 +15,7 @@ import javax.script.ScriptEngineManager
 class ScriptProcessorTest extends Specification {
     private static final FILENAME_WITHOUT_EXT = 'test.'
     private static final FILE_CONTENTS = 'abc\nDeF\nXYZ'
-    private static final List<ScriptEngineFactory> FACTORIES =
-            new ScriptEngineManager().engineFactories.findAll { it.extensions }
+    private static final List<ScriptEngineFactory> FACTORIES = new ScriptEngineManager().engineFactories
 
     final proc = new ScriptProcessor()
 
@@ -27,26 +26,26 @@ class ScriptProcessorTest extends Specification {
 
     def 'reads an absolute path and finds a ScriptEngine for its extension'() {
         setup:
-        final file = tmp.newFile(FILENAME_WITHOUT_EXT + engine.extensions[0])
+        final file = tmp.newFile(FILENAME_WITHOUT_EXT + factory.extensions[0])
         file.text = FILE_CONTENTS
 
         expect:
-        proc.apply(file.absolutePath) == new Script(engine.languageName, FILE_CONTENTS)
+        proc.apply(file.absolutePath) == new Script(factory.languageName, FILE_CONTENTS)
 
         where:
-        engine << FACTORIES
+        factory << FACTORIES.findAll { it.extensions }
     }
 
     def 'reads a home directory path and finds a ScriptEngine for its extension'() {
         setup:
-        final file = homeTmp.newFile(FILENAME_WITHOUT_EXT + engine.extensions[0])
+        final file = homeTmp.newFile(FILENAME_WITHOUT_EXT + factory.extensions[0])
         file.text = FILE_CONTENTS
 
         expect:
-        proc.apply(file.path) == new Script(engine.languageName, FILE_CONTENTS)
+        proc.apply(file.path) == new Script(factory.languageName, FILE_CONTENTS)
 
         where:
-        engine << FACTORIES
+        factory << FACTORIES.findAll { it.extensions }
     }
 
     def 'throws when passed any Object'() {
