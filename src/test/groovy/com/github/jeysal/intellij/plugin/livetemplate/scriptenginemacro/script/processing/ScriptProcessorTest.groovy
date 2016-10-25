@@ -31,7 +31,7 @@ class ScriptProcessorTest extends Specification {
         file.text = FILE_CONTENTS
 
         expect:
-        proc.apply(file.absolutePath, '') == new Script(engine.languageName, FILE_CONTENTS)
+        proc.apply(file.absolutePath) == new Script(engine.languageName, FILE_CONTENTS)
 
         where:
         engine << FACTORIES
@@ -43,7 +43,7 @@ class ScriptProcessorTest extends Specification {
         file.text = FILE_CONTENTS
 
         expect:
-        proc.apply(file.path, '') == new Script(engine.languageName, FILE_CONTENTS)
+        proc.apply(file.path) == new Script(engine.languageName, FILE_CONTENTS)
 
         where:
         engine << FACTORIES
@@ -51,7 +51,7 @@ class ScriptProcessorTest extends Specification {
 
     def 'throws when passed any Object'() {
         when:
-        proc.apply(new Object(), null)
+        proc.apply(new Object())
 
         then:
         thrown(RuntimeException)
