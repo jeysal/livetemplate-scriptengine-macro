@@ -18,7 +18,7 @@ class ScriptProcessorTest extends Specification {
     private static final List<ScriptEngineFactory> FACTORIES =
             new ScriptEngineManager().engineFactories.findAll { it.extensions }
 
-    def proc = new ScriptProcessor()
+    final proc = new ScriptProcessor()
 
     @Rule
     TemporaryFolder tmp = new TemporaryFolder()

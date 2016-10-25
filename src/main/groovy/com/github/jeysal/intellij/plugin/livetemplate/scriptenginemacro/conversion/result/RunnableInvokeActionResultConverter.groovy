@@ -11,7 +11,7 @@ import java.util.function.Function
  */
 trait RunnableInvokeActionResultConverter implements Function<Object, Result> {
     @Override
-    Result apply(Object obj) {
+    Result apply(final obj) {
         obj instanceof Runnable ?
                 new InvokeActionResult(obj) :
                 super.apply(obj)

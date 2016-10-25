@@ -10,7 +10,7 @@ import java.util.function.Function
  */
 class DefaultParamConverter implements Function<Result, Object> {
     @Override
-    Object apply(Result res) {
+    Object apply(final Result res) {
         Objects.toString(res)
     }
 }

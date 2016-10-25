@@ -8,7 +8,7 @@ import java.util.stream.BaseStream
  * @since 10/17/16
  */
 trait BaseStreamConverter<R> implements Function<Object, R> {
-    R apply(Object obj) {
+    R apply(final obj) {
         obj instanceof BaseStream ?
                 apply(obj.spliterator()) :
                 super.apply(obj)

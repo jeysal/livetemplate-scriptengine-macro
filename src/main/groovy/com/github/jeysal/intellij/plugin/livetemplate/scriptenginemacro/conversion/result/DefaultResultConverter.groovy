@@ -11,7 +11,7 @@ import java.util.function.Function
  */
 class DefaultResultConverter implements Function<Object, Result> {
     @Override
-    Result apply(Object obj) {
+    Result apply(final obj) {
         new TextResult(Objects.toString(obj))
     }
 }

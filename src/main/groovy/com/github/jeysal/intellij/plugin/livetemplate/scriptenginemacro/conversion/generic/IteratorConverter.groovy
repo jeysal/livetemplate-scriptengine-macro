@@ -7,7 +7,7 @@ import java.util.function.Function
  * @since 10/17/16
  */
 trait IteratorConverter<R> implements Function<Object, R> {
-    R apply(Object obj) {
+    R apply(final obj) {
         obj instanceof Iterator ?
                 apply(Spliterators.spliteratorUnknownSize(obj, 0)) :
                 super.apply(obj)

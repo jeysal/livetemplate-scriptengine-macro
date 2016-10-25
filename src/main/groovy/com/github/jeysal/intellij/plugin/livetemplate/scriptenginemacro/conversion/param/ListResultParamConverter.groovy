@@ -10,7 +10,7 @@ import java.util.function.Function
  * @since 10/24/16
  */
 trait ListResultParamConverter implements Function<Result, Object> {
-    Object apply(Result res) {
+    Object apply(final Result res) {
         res instanceof ListResult ?
                 res.components.collect(this.&apply) :
                 super.apply(res)

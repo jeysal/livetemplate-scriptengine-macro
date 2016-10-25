@@ -11,12 +11,12 @@ import spock.lang.Specification
  * @since 10/24/16
  */
 class ParamConverterTest extends Specification {
-    def conv = new ParamConverter()
+    final conv = new ParamConverter()
 
     def 'converts each element of a ListResult into a List'() {
         given:
-        Runnable noop = { -> }
-        def res = Mock(Result)
+        final Runnable noop = { -> }
+        final res = Mock(Result)
 
         expect:
         conv.apply(new ListResult([
@@ -38,7 +38,7 @@ class ParamConverterTest extends Specification {
 
     def 'unwraps an InvokeActionsResult'() {
         given:
-        Runnable noop = { -> }
+        final Runnable noop = { -> }
 
         expect:
         conv.apply(new InvokeActionResult(noop)) == noop
@@ -46,7 +46,7 @@ class ParamConverterTest extends Specification {
 
     def 'toStrings any Result'() {
         given:
-        def res = Mock(Result)
+        final res = Mock(Result)
 
         expect:
         conv.apply(res) == res.toString()

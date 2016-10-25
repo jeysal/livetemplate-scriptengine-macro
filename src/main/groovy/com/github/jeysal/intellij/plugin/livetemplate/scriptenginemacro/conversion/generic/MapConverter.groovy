@@ -7,7 +7,7 @@ import java.util.function.Function
  * @since 10/17/16
  */
 trait MapConverter<R> implements Function<Object, R> {
-    R apply(Object obj) {
+    R apply(final obj) {
         obj instanceof Map ?
                 apply(obj.entrySet().spliterator()) :
                 super.apply(obj)

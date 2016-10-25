@@ -9,7 +9,7 @@ import java.util.function.BiFunction
  * @since 10/24/16
  */
 class DefaultScriptProcessor implements BiFunction<Object, String, Script> {
-    Script apply(Object obj, String lang) {
+    Script apply(final obj, final String lang) {
         throw new RuntimeException("""failed to parse script from $obj
 please supply script of format type:source or [type:]path""")
     }

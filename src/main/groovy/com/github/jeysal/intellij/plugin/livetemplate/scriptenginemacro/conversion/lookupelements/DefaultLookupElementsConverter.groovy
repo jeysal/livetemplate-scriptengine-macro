@@ -11,7 +11,7 @@ import java.util.function.Function
  */
 class DefaultLookupElementsConverter implements Function<Object, LookupElement[]> {
     @Override
-    LookupElement[] apply(Object obj) {
+    LookupElement[] apply(final obj) {
         obj == null ?
                 [] :
                 [LookupElementBuilder.create(obj)]
