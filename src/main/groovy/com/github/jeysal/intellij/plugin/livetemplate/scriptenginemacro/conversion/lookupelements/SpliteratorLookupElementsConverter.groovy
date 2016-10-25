@@ -12,9 +12,9 @@ import java.util.stream.StreamSupport
  */
 trait SpliteratorLookupElementsConverter implements Converter<Object, LookupElement[]> {
     @Override
-    LookupElement[] call(Object obj) {
+    LookupElement[] apply(Object obj) {
         obj instanceof Spliterator ?
-                StreamSupport.stream(obj, false).map(this.&call).collect(Collectors.toList()).flatten() as LookupElement[] :
-                super.call(obj)
+                StreamSupport.stream(obj, false).map(this.&apply).collect(Collectors.toList()).flatten() as LookupElement[] :
+                super.apply(obj)
     }
 }

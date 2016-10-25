@@ -9,9 +9,9 @@ import java.util.stream.BaseStream
  * @since 10/17/16
  */
 trait BaseStreamConverter<R> implements Converter<Object, R> {
-    R call(Object obj) {
+    R apply(Object obj) {
         obj instanceof BaseStream ?
-                call(obj.spliterator()) :
-                super.call(obj)
+                apply(obj.spliterator()) :
+                super.apply(obj)
     }
 }

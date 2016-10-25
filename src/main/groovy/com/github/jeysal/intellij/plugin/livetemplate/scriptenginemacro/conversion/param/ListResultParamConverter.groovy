@@ -9,9 +9,9 @@ import com.intellij.codeInsight.template.Result
  * @since 10/24/16
  */
 trait ListResultParamConverter implements Converter<Result, Object> {
-    Object call(Result res) {
+    Object apply(Result res) {
         res instanceof ListResult ?
-                res.components.collect(this.&call) :
-                super.call(res)
+                res.components.collect(this.&apply) :
+                super.apply(res)
     }
 }

@@ -5,5 +5,5 @@ package com.github.jeysal.intellij.plugin.livetemplate.scriptenginemacro.convers
  * @since 10/17/16
  */
 interface Converter<T, R> {
-    R call(T obj)
+    R apply(T obj)
 }

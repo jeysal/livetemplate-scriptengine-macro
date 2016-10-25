@@ -11,9 +11,9 @@ import java.util.stream.StreamSupport
  */
 trait SpliteratorResultConverter implements Converter<Object, Result> {
     @Override
-    Result call(Object obj) {
+    Result apply(Object obj) {
         obj instanceof Spliterator ?
-                call(StreamSupport.stream(obj, false).findFirst().orElse(null)) :
-                super.call(obj)
+                apply(StreamSupport.stream(obj, false).findFirst().orElse(null)) :
+                super.apply(obj)
     }
 }

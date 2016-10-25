@@ -9,9 +9,9 @@ import com.intellij.codeInsight.template.TextResult
  * @since 10/24/16
  */
 trait TextResultParamConverter implements Converter<Result, Object> {
-    Object call(Result res) {
+    Object apply(Result res) {
         res instanceof TextResult ?
                 res.text :
-                super.call(res)
+                super.apply(res)
     }
 }

@@ -13,7 +13,7 @@ class LookupElementsConverterTest extends Specification {
 
     def 'wraps each element of a Collection-ish in a LookupElement'() {
         expect:
-        conv.call(collection).collect { it.object } == res
+        conv.apply(collection).collect { it.object } == res
 
         where:
         collection << [
@@ -29,23 +29,23 @@ class LookupElementsConverterTest extends Specification {
 
     def 'flattens a Collection before wrapping the elements'() {
         expect:
-        conv.call([[1, 2], 3]).collect { it.object } == [1, 2, 3]
+        conv.apply([[1, 2], 3]).collect { it.object } == [1, 2, 3]
     }
 
     def 'fully reads a Reader into a LookupElement'() {
         expect:
-        conv.call(new StringReader('asdf')).collect { it.object } == ['asdf']
+        conv.apply(new StringReader('asdf')).collect { it.object } == ['asdf']
     }
 
     def 'fully reads an InputStream into a LookupElement'() {
         expect:
-        conv.call(new ByteArrayInputStream('asdf'.bytes)).collect { it.object } == ['asdf']
+        conv.apply(new ByteArrayInputStream('asdf'.bytes)).collect { it.object } == ['asdf']
     }
 
     def 'wraps any object into a LookupElement'() {
         given:
         final obj = new Object()
-        final res = conv.call(obj)
+        final res = conv.apply(obj)
 
         expect:
         res.collect { it.object } == [obj]
@@ -53,6 +53,6 @@ class LookupElementsConverterTest extends Specification {
 
     def 'converts null to an empty LookupElement array'() {
         expect:
-        conv.call(null) as List == []
+        conv.apply(null) as List == []
     }
 }

@@ -10,7 +10,7 @@ import com.intellij.codeInsight.lookup.LookupElementBuilder
  */
 class DefaultLookupElementsConverter implements Converter<Object, LookupElement[]> {
     @Override
-    LookupElement[] call(Object obj) {
+    LookupElement[] apply(Object obj) {
         obj == null ?
                 [] :
                 [LookupElementBuilder.create(obj)]

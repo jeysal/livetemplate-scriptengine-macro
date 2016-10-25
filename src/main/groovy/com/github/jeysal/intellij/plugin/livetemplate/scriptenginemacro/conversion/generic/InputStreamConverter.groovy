@@ -9,9 +9,9 @@ import static com.github.jeysal.java.util.function.SupplierUtils.trying
  * @since 10/18/16
  */
 trait InputStreamConverter<R> implements Converter<Object, R> {
-    R call(Object obj) {
+    R apply(Object obj) {
         obj instanceof InputStream ?
-                call(trying(obj.&getText).get().orElse(null)) :
-                super.call(obj)
+                apply(trying(obj.&getText).get().orElse(null)) :
+                super.apply(obj)
     }
 }

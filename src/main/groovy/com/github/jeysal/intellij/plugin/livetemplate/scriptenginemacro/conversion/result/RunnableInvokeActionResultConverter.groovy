@@ -10,9 +10,9 @@ import com.intellij.codeInsight.template.Result
  */
 trait RunnableInvokeActionResultConverter implements Converter<Object, Result> {
     @Override
-    Result call(Object obj) {
+    Result apply(Object obj) {
         obj instanceof Runnable ?
                 new InvokeActionResult(obj) :
-                super.call(obj)
+                super.apply(obj)
     }
 }

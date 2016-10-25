@@ -10,7 +10,7 @@ import com.intellij.codeInsight.template.TextResult
  */
 class DefaultResultConverter implements Converter<Object, Result> {
     @Override
-    Result call(Object obj) {
+    Result apply(Object obj) {
         new TextResult(Objects.toString(obj))
     }
 }

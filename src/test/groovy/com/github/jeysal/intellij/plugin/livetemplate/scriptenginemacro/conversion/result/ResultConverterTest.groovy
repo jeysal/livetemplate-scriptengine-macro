@@ -15,7 +15,7 @@ class ResultConverterTest extends Specification {
 
     def 'toStrings the first element of a Collection-ish or null if empty into a TextResult'() {
         expect:
-        (conv.call(collection) as TextResult).text == res
+        (conv.apply(collection) as TextResult).text == res
 
         where:
         collection << [
@@ -31,18 +31,18 @@ class ResultConverterTest extends Specification {
 
     def 'fully reads a Reader into a TextResult'() {
         expect:
-        (conv.call(new StringReader('asdf')) as TextResult).text == 'asdf'
+        (conv.apply(new StringReader('asdf')) as TextResult).text == 'asdf'
     }
 
     def 'fully reads an InputStream into a TextResult'() {
         expect:
-        (conv.call(new ByteArrayInputStream('asdf'.bytes)) as TextResult).text == 'asdf'
+        (conv.apply(new ByteArrayInputStream('asdf'.bytes)) as TextResult).text == 'asdf'
     }
 
     def 'wraps a Runnable in an InvokeActionResult'() {
         given:
         final run = { -> } as Runnable
-        final res = conv.call(run) as InvokeActionResult
+        final res = conv.apply(run) as InvokeActionResult
 
         expect:
         res.action == run
@@ -51,7 +51,7 @@ class ResultConverterTest extends Specification {
     def 'toStrings any object into a TextResult'() {
         given:
         final obj = new Object()
-        final res = conv.call(obj) as TextResult
+        final res = conv.apply(obj) as TextResult
 
         expect:
         res.text == obj.toString()
@@ -59,6 +59,6 @@ class ResultConverterTest extends Specification {
 
     def 'toStrings null into a TextResult'() {
         expect:
-        (conv.call(null) as TextResult).text == 'null'
+        (conv.apply(null) as TextResult).text == 'null'
     }
 }

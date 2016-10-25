@@ -9,9 +9,9 @@ import com.intellij.codeInsight.template.Result
  * @since 10/24/16
  */
 trait InvokeActionResultParamConverter implements Converter<Result, Object> {
-    Object call(Result res) {
+    Object apply(Result res) {
         res instanceof InvokeActionResult ?
                 res.action :
-                super.call(res)
+                super.apply(res)
     }
 }

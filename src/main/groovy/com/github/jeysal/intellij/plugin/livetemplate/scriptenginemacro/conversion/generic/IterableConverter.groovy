@@ -7,9 +7,9 @@ import com.github.jeysal.intellij.plugin.livetemplate.scriptenginemacro.conversi
  * @since 10/17/16
  */
 trait IterableConverter<R> implements Converter<Object, R> {
-    R call(Object obj) {
+    R apply(Object obj) {
         obj instanceof Iterable ?
-                call(obj.spliterator()) :
-                super.call(obj)
+                apply(obj.spliterator()) :
+                super.apply(obj)
     }
 }

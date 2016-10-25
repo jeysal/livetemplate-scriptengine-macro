@@ -19,7 +19,7 @@ class ParamConverterTest extends Specification {
         def res = Mock(Result)
 
         expect:
-        conv.call(new ListResult([
+        conv.apply(new ListResult([
                 new TextResult('asdf'),
                 new InvokeActionResult(noop),
                 res
@@ -28,12 +28,12 @@ class ParamConverterTest extends Specification {
 
     def 'converts an empty ListResult to an empty List'() {
         expect:
-        conv.call(new ListResult([])) == []
+        conv.apply(new ListResult([])) == []
     }
 
     def 'unwraps a TextResult'() {
         expect:
-        conv.call(new TextResult('asdf')) == 'asdf'
+        conv.apply(new TextResult('asdf')) == 'asdf'
     }
 
     def 'unwraps an InvokeActionsResult'() {
@@ -41,7 +41,7 @@ class ParamConverterTest extends Specification {
         Runnable noop = { -> }
 
         expect:
-        conv.call(new InvokeActionResult(noop)) == noop
+        conv.apply(new InvokeActionResult(noop)) == noop
     }
 
     def 'toStrings any Result'() {
@@ -49,11 +49,11 @@ class ParamConverterTest extends Specification {
         def res = Mock(Result)
 
         expect:
-        conv.call(res) == res.toString()
+        conv.apply(res) == res.toString()
     }
 
     def 'toStrings null'() {
         expect:
-        conv.call(null) == 'null'
+        conv.apply(null) == 'null'
     }
 }

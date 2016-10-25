@@ -9,7 +9,7 @@ import com.intellij.codeInsight.template.Result
  */
 class DefaultParamConverter implements Converter<Result, Object> {
     @Override
-    Object call(Result res) {
+    Object apply(Result res) {
         Objects.toString(res)
     }
 }
