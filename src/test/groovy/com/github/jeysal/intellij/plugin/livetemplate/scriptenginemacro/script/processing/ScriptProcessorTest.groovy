@@ -48,6 +48,30 @@ class ScriptProcessorTest extends Specification {
         factory << FACTORIES.findAll { it.extensions }
     }
 
+    def 'reads a path prefixed with a mime type'() {
+        setup:
+        final file = tmp.newFile()
+        file.text = FILE_CONTENTS
+
+        expect:
+        proc.apply(factory.mimeTypes[0] + ':' + file.absolutePath) == new Script(factory.languageName, FILE_CONTENTS)
+
+        where:
+        factory << FACTORIES.findAll { it.mimeTypes }
+    }
+
+    def 'reads a path prefixed with a name'() {
+        setup:
+        final file = tmp.newFile()
+        file.text = FILE_CONTENTS
+
+        expect:
+        proc.apply(factory.names[0] + ':' + file.absolutePath) == new Script(factory.languageName, FILE_CONTENTS)
+
+        where:
+        factory << FACTORIES.findAll { it.names }
+    }
+
     def 'throws when passed any Object'() {
         when:
         proc.apply(new Object())
