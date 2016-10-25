@@ -4,5 +4,6 @@ package com.github.jeysal.intellij.plugin.livetemplate.scriptenginemacro.script.
  * @author seckinger
  * @since 10/24/16
  */
-class ScriptProcessor extends DefaultScriptProcessor {
+class ScriptProcessor extends DefaultScriptProcessor implements
+        FileScriptProcessor {
 }
