@@ -4,12 +4,13 @@ import com.github.jeysal.intellij.plugin.livetemplate.scriptenginemacro.executio
 import org.apache.commons.io.FilenameUtils
 
 import javax.script.ScriptEngineManager
+import java.util.function.BiFunction
 
 /**
  * @author seckinger
  * @since 10/24/16
  */
-trait FileScriptProcessor implements Processor<Object, String, Script> {
+trait FileScriptProcessor implements BiFunction<Object, String, Script> {
     private static final BASE_DIRS = ['', System.getProperty('user.home')]
     private final manager = new ScriptEngineManager()
 
