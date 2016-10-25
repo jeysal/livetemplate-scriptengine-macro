@@ -1,15 +1,15 @@
 package com.github.jeysal.intellij.plugin.livetemplate.scriptenginemacro.conversion.result
 
-import com.github.jeysal.intellij.plugin.livetemplate.scriptenginemacro.conversion.Converter
 import com.intellij.codeInsight.template.Result
 
+import java.util.function.Function
 import java.util.stream.StreamSupport
 
 /**
  * @author seckinger
  * @since 10/17/16
  */
-trait SpliteratorResultConverter implements Converter<Object, Result> {
+trait SpliteratorResultConverter implements Function<Object, Result> {
     @Override
     Result apply(Object obj) {
         obj instanceof Spliterator ?

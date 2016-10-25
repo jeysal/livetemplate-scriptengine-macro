@@ -1,13 +1,14 @@
 package com.github.jeysal.intellij.plugin.livetemplate.scriptenginemacro.conversion.param
 
-import com.github.jeysal.intellij.plugin.livetemplate.scriptenginemacro.conversion.Converter
 import com.intellij.codeInsight.template.Result
+
+import java.util.function.Function
 
 /**
  * @author seckinger
  * @since 10/24/16
  */
-class DefaultParamConverter implements Converter<Result, Object> {
+class DefaultParamConverter implements Function<Result, Object> {
     @Override
     Object apply(Result res) {
         Objects.toString(res)
