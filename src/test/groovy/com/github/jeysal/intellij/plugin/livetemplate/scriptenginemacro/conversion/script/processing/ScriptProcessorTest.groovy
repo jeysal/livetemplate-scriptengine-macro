@@ -23,6 +23,8 @@ class ScriptProcessorTest extends Specification {
 
     @Rule
     TemporaryFolder tmp = new TemporaryFolder()
+    @Rule
+    TemporaryFolder homeTmp = new TemporaryFolder(new File(System.getProperty('user.home')))
 
     def 'reads an absolute path and finds a ScriptEngine for its extension'() {
         setup:
@@ -31,6 +33,18 @@ class ScriptProcessorTest extends Specification {
 
         expect:
         proc.call(file.absolutePath, '') == new Script(engine.languageName, FILE_CONTENTS)
+
+        where:
+        engine << FACTORIES
+    }
+
+    def 'reads a home directory path and finds a ScriptEngine for its extension'() {
+        setup:
+        final file = homeTmp.newFile(FILENAME_WITHOUT_EXT + engine.extensions[0])
+        file.text = FILE_CONTENTS
+
+        expect:
+        proc.call(file.path, '') == new Script(engine.languageName, FILE_CONTENTS)
 
         where:
         engine << FACTORIES
