@@ -5,5 +5,5 @@ package com.github.jeysal.intellij.plugin.livetemplate.scriptenginemacro.script.
  * @since 10/25/16
  */
 interface Processor<T, U, R> {
-    R call(T t, U u)
+    R apply(T t, U u)
 }

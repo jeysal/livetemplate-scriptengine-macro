@@ -26,6 +26,6 @@ trait FileScriptProcessor implements Processor<Object, String, Script> {
                     return new Script(newLang, file.text)
             }
         }
-        super.call(obj, lang)
+        super.apply(obj, lang)
     }
 }
