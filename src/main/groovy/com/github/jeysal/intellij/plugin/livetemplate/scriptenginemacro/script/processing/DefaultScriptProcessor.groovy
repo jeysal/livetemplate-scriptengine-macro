@@ -6,7 +6,7 @@ import com.github.jeysal.intellij.plugin.livetemplate.scriptenginemacro.executio
  * @author seckinger
  * @since 10/24/16
  */
-class DefaultScriptProcessor {
+class DefaultScriptProcessor implements Processor<Object, String, Script> {
     Script call(Object obj, String lang) {
         throw new RuntimeException("""failed to parse script from $obj
 please supply script of format type:source or [type:]path""")

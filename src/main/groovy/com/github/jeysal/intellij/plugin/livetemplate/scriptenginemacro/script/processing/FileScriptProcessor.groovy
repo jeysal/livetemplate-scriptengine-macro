@@ -9,7 +9,7 @@ import javax.script.ScriptEngineManager
  * @author seckinger
  * @since 10/24/16
  */
-trait FileScriptProcessor {
+trait FileScriptProcessor implements Processor<Object, String, Script> {
     private static final BASE_DIRS = ['', System.getProperty('user.home')]
     private final manager = new ScriptEngineManager()
 
