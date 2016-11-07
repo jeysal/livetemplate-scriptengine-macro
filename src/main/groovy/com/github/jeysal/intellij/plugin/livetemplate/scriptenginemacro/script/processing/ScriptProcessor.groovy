@@ -9,6 +9,7 @@ import java.util.function.Function
  * @since 10/24/16
  */
 class ScriptProcessor extends DefaultScriptProcessor implements Function<Object, Script>,
+        PrefixScriptProcessor,
         FileScriptProcessor {
     Script apply(final Object obj) {
         apply(obj, '')
