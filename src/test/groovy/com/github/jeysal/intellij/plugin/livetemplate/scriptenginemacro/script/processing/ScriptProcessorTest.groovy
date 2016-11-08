@@ -111,6 +111,14 @@ class ScriptProcessorTest extends Specification {
         factory << FACTORIES.findAll { it.names }
     }
 
+    def 'reads source code prefixed with a mime type'() {
+        expect:
+        proc.apply(factory.mimeTypes[0] + ':' + SCRIPT_SOURCE) == new Script(factory.languageName, SCRIPT_SOURCE)
+
+        where:
+        factory << FACTORIES.findAll { it.mimeTypes }
+    }
+
     def 'throws when passed any Object'() {
         when:
         proc.apply(new Object())
