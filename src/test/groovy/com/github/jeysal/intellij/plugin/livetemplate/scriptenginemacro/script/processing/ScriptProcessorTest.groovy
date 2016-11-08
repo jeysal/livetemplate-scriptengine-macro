@@ -103,6 +103,31 @@ class ScriptProcessorTest extends Specification {
         factory << FACTORIES.findAll { it.extensions }
     }
 
+    def 'throws when passed a nonexistent path'() {
+        setup:
+        final file = new File(tmp.newFolder(), 'test')
+
+        when:
+        proc.apply(file.absolutePath)
+
+        then:
+        thrown(RuntimeException)
+    }
+
+    def 'throws when passed a nonexistent path with extension'() {
+        setup:
+        final file = new File(tmp.newFolder(), FILENAME_WITHOUT_EXT + factory.extensions[0])
+
+        when:
+        proc.apply(file.absolutePath)
+
+        then:
+        thrown(RuntimeException)
+
+        where:
+        factory << FACTORIES.findAll { it.extensions }
+    }
+
     def 'reads source code prefixed with a name'() {
         expect:
         proc.apply(factory.names[0] + ':' + SCRIPT_SOURCE) == new Script(factory.languageName, SCRIPT_SOURCE)
