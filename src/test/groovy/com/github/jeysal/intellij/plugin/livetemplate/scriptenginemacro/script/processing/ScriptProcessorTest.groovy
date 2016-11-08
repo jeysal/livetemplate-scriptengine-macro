@@ -72,6 +72,34 @@ class ScriptProcessorTest extends Specification {
         factory << FACTORIES.findAll { it.names }
     }
 
+    def 'throws when passed a prefixed directory path'() {
+        setup:
+        final dir = tmp.newFolder()
+
+        when:
+        proc.apply(factory.names[0] + ':' + dir.absolutePath)
+
+        then:
+        thrown(FileNotFoundException)
+
+        where:
+        factory << FACTORIES.findAll { it.names }
+    }
+
+    def 'throws when passed a directory path with an extension'() {
+        setup:
+        final dir = tmp.newFolder(FILENAME_WITHOUT_EXT + factory.extensions[0])
+
+        when:
+        proc.apply(dir.absolutePath)
+
+        then:
+        thrown(FileNotFoundException)
+
+        where:
+        factory << FACTORIES.findAll { it.extensions }
+    }
+
     def 'throws when passed any Object'() {
         when:
         proc.apply(new Object())
