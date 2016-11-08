@@ -75,6 +75,17 @@ class ScriptProcessorTest extends Specification {
         factory << FACTORIES.findAll { it.names }
     }
 
+    def 'throws when passed a directory path'() {
+        setup:
+        final dir = tmp.newFolder()
+
+        when:
+        proc.apply(dir.absolutePath)
+
+        then:
+        thrown(RuntimeException)
+    }
+
     def 'throws when passed a prefixed directory path'() {
         setup:
         final dir = tmp.newFolder()
