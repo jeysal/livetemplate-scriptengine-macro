@@ -155,6 +155,17 @@ class ScriptProcessorTest extends Specification {
         factory << FACTORIES.findAll { it.mimeTypes }
     }
 
+    def 'reads source code that looks like a nonexisting path prefixed with a name'() {
+        setup:
+        def file = new File(tmp.newFolder(), 'test')
+
+        expect:
+        proc.apply(factory.names[0] + ':' + file.absolutePath) == new Script(factory.languageName, file.absolutePath)
+
+        where:
+        factory << FACTORIES.findAll { it.names }
+    }
+
     def 'throws when passed any Object'() {
         when:
         proc.apply(new Object())
