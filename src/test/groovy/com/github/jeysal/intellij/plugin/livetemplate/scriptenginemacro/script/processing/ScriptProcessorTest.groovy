@@ -16,9 +16,7 @@ import java.util.stream.Stream
  */
 class ScriptProcessorTest extends Specification {
     private static final FILENAME_WITHOUT_EXT = 'test.'
-    private static final FILE_CONTENTS = 'abc\nDeF\nXYZ'
-
-    private static final SCRIPT_SOURCE = 'asdf'
+    private static final SCRIPT_SOURCE = 'abc\nDeF\nXYZ'
 
     private static final List<ScriptEngineFactory> FACTORIES = new ScriptEngineManager().engineFactories
 
@@ -32,10 +30,10 @@ class ScriptProcessorTest extends Specification {
     def 'reads an absolute path and finds a ScriptEngine for its extension'() {
         setup:
         final file = tmp.newFile(FILENAME_WITHOUT_EXT + factory.extensions[0])
-        file.text = FILE_CONTENTS
+        file.text = SCRIPT_SOURCE
 
         expect:
-        proc.apply(file.absolutePath) == new Script(factory.languageName, FILE_CONTENTS)
+        proc.apply(file.absolutePath) == new Script(factory.languageName, SCRIPT_SOURCE)
 
         where:
         factory << FACTORIES.findAll { it.extensions }
@@ -44,10 +42,10 @@ class ScriptProcessorTest extends Specification {
     def 'reads a home directory path and finds a ScriptEngine for its extension'() {
         setup:
         final file = homeTmp.newFile(FILENAME_WITHOUT_EXT + factory.extensions[0])
-        file.text = FILE_CONTENTS
+        file.text = SCRIPT_SOURCE
 
         expect:
-        proc.apply(file.path) == new Script(factory.languageName, FILE_CONTENTS)
+        proc.apply(file.path) == new Script(factory.languageName, SCRIPT_SOURCE)
 
         where:
         factory << FACTORIES.findAll { it.extensions }
@@ -56,10 +54,10 @@ class ScriptProcessorTest extends Specification {
     def 'reads a path prefixed with a mime type'() {
         setup:
         final file = tmp.newFile()
-        file.text = FILE_CONTENTS
+        file.text = SCRIPT_SOURCE
 
         expect:
-        proc.apply(factory.mimeTypes[0] + ':' + file.absolutePath) == new Script(factory.languageName, FILE_CONTENTS)
+        proc.apply(factory.mimeTypes[0] + ':' + file.absolutePath) == new Script(factory.languageName, SCRIPT_SOURCE)
 
         where:
         factory << FACTORIES.findAll { it.mimeTypes }
@@ -68,10 +66,10 @@ class ScriptProcessorTest extends Specification {
     def 'reads a path prefixed with a name'() {
         setup:
         final file = tmp.newFile()
-        file.text = FILE_CONTENTS
+        file.text = SCRIPT_SOURCE
 
         expect:
-        proc.apply(factory.names[0] + ':' + file.absolutePath) == new Script(factory.languageName, FILE_CONTENTS)
+        proc.apply(factory.names[0] + ':' + file.absolutePath) == new Script(factory.languageName, SCRIPT_SOURCE)
 
         where:
         factory << FACTORIES.findAll { it.names }
@@ -161,10 +159,10 @@ class ScriptProcessorTest extends Specification {
                 .filter { str -> FACTORIES.every { factory -> !factory.extensions.contains(str) } }
                 .findAny().orElseThrow { new RuntimeException('unable to find unknown script engine extension') }
         final file = tmp.newFile(FILENAME_WITHOUT_EXT + ext)
-        file.text = FILE_CONTENTS
+        file.text = SCRIPT_SOURCE
 
         expect:
-        proc.apply(factory.names[0] + ':' + file.absolutePath) == new Script(factory.languageName, FILE_CONTENTS)
+        proc.apply(factory.names[0] + ':' + file.absolutePath) == new Script(factory.languageName, SCRIPT_SOURCE)
 
         where:
         factory << FACTORIES.findAll { it.names }
