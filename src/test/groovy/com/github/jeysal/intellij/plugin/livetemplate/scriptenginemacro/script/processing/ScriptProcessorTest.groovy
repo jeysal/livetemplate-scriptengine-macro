@@ -15,7 +15,7 @@ import java.util.stream.Stream
  * @since 10/24/16
  */
 class ScriptProcessorTest extends Specification {
-    private static final FILENAME_WITHOUT_EXT = 'test.'
+    private static final FILENAME_WITHOUT_EXT = 'test'
     private static final SCRIPT_SOURCE = 'abc\nDeF\nXYZ'
 
     private static final List<ScriptEngineFactory> FACTORIES = new ScriptEngineManager().engineFactories
@@ -29,7 +29,7 @@ class ScriptProcessorTest extends Specification {
 
     def 'reads an absolute path and finds a ScriptEngine for its extension'() {
         setup:
-        final file = tmp.newFile(FILENAME_WITHOUT_EXT + factory.extensions[0])
+        final file = tmp.newFile(FILENAME_WITHOUT_EXT + '.' + factory.extensions[0])
         file.text = SCRIPT_SOURCE
 
         expect:
@@ -41,7 +41,7 @@ class ScriptProcessorTest extends Specification {
 
     def 'reads a home directory path and finds a ScriptEngine for its extension'() {
         setup:
-        final file = homeTmp.newFile(FILENAME_WITHOUT_EXT + factory.extensions[0])
+        final file = homeTmp.newFile(FILENAME_WITHOUT_EXT + '.' + factory.extensions[0])
         file.text = SCRIPT_SOURCE
 
         expect:
@@ -102,7 +102,7 @@ class ScriptProcessorTest extends Specification {
 
     def 'throws when passed a directory path with an extension'() {
         setup:
-        final dir = tmp.newFolder(FILENAME_WITHOUT_EXT + factory.extensions[0])
+        final dir = tmp.newFolder(FILENAME_WITHOUT_EXT + '.' + factory.extensions[0])
 
         when:
         proc.apply(dir.absolutePath)
@@ -116,7 +116,7 @@ class ScriptProcessorTest extends Specification {
 
     def 'throws when passed a nonexistent path'() {
         setup:
-        final file = new File(tmp.newFolder(), 'test')
+        final file = new File(tmp.newFolder(), FILENAME_WITHOUT_EXT)
 
         when:
         proc.apply(file.absolutePath)
@@ -127,7 +127,7 @@ class ScriptProcessorTest extends Specification {
 
     def 'throws when passed a nonexistent path with extension'() {
         setup:
-        final file = new File(tmp.newFolder(), FILENAME_WITHOUT_EXT + factory.extensions[0])
+        final file = new File(tmp.newFolder(), FILENAME_WITHOUT_EXT + '.' + factory.extensions[0])
 
         when:
         proc.apply(file.absolutePath)
@@ -144,7 +144,7 @@ class ScriptProcessorTest extends Specification {
         final ext = Stream.iterate('a', { str -> str + 'a' } as UnaryOperator)
                 .filter { str -> FACTORIES.every { factory -> !factory.extensions.contains(str) } }
                 .findAny().orElseThrow { new RuntimeException('unable to find unknown script engine extension') }
-        final file = tmp.newFile(FILENAME_WITHOUT_EXT + ext)
+        final file = tmp.newFile(FILENAME_WITHOUT_EXT + '.' + ext)
 
         when:
         proc.apply(file.absolutePath)
@@ -158,7 +158,7 @@ class ScriptProcessorTest extends Specification {
         final ext = Stream.iterate('a', { str -> str + 'a' } as UnaryOperator)
                 .filter { str -> FACTORIES.every { factory -> !factory.extensions.contains(str) } }
                 .findAny().orElseThrow { new RuntimeException('unable to find unknown script engine extension') }
-        final file = tmp.newFile(FILENAME_WITHOUT_EXT + ext)
+        final file = tmp.newFile(FILENAME_WITHOUT_EXT + '.' + ext)
         file.text = SCRIPT_SOURCE
 
         expect:
@@ -186,7 +186,7 @@ class ScriptProcessorTest extends Specification {
 
     def 'reads source code that looks like a nonexisting path prefixed with a name'() {
         setup:
-        def file = new File(tmp.newFolder(), 'test')
+        def file = new File(tmp.newFolder(), FILENAME_WITHOUT_EXT)
 
         expect:
         proc.apply(factory.names[0] + ':' + file.absolutePath) == new Script(factory.languageName, file.absolutePath)
