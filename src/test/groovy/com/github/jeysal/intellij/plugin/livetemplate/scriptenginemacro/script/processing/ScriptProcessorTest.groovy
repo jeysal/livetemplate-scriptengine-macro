@@ -15,6 +15,9 @@ import javax.script.ScriptEngineManager
 class ScriptProcessorTest extends Specification {
     private static final FILENAME_WITHOUT_EXT = 'test.'
     private static final FILE_CONTENTS = 'abc\nDeF\nXYZ'
+
+    private static final SCRIPT_SOURCE = 'asdf'
+
     private static final List<ScriptEngineFactory> FACTORIES = new ScriptEngineManager().engineFactories
 
     final proc = new ScriptProcessor()
@@ -98,6 +101,14 @@ class ScriptProcessorTest extends Specification {
 
         where:
         factory << FACTORIES.findAll { it.extensions }
+    }
+
+    def 'reads source code prefixed with a name'() {
+        expect:
+        proc.apply(factory.names[0] + ':' + SCRIPT_SOURCE) == new Script(factory.languageName, SCRIPT_SOURCE)
+
+        where:
+        factory << FACTORIES.findAll { it.names }
     }
 
     def 'throws when passed any Object'() {
