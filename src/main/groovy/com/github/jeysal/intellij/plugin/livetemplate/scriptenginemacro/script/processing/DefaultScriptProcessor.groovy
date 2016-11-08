@@ -11,6 +11,6 @@ import java.util.function.BiFunction
 class DefaultScriptProcessor implements BiFunction<Object, String, Script> {
     Script apply(final obj, final String lang) {
         throw new RuntimeException("""failed to parse script from $obj
-please supply script of format type:source or [type:]path""")
+please consult the documentation for usage instructions""")
     }
 }
