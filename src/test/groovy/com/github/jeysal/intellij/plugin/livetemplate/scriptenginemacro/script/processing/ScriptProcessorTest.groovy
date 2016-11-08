@@ -7,6 +7,8 @@ import spock.lang.Specification
 
 import javax.script.ScriptEngineFactory
 import javax.script.ScriptEngineManager
+import java.util.function.UnaryOperator
+import java.util.stream.Stream
 
 /**
  * @author seckinger
@@ -137,6 +139,35 @@ class ScriptProcessorTest extends Specification {
 
         where:
         factory << FACTORIES.findAll { it.extensions }
+    }
+
+    def 'throws when passed a path with unknown extension'() {
+        setup:
+        final ext = Stream.iterate('a', { str -> str + 'a' } as UnaryOperator)
+                .filter { str -> FACTORIES.every { factory -> !factory.extensions.contains(str) } }
+                .findAny().orElseThrow { new RuntimeException('unable to find unknown script engine extension') }
+        final file = tmp.newFile(FILENAME_WITHOUT_EXT + ext)
+
+        when:
+        proc.apply(file.absolutePath)
+
+        then:
+        thrown(RuntimeException)
+    }
+
+    def 'reads a path with unknown extension prefixed with a name'() {
+        setup:
+        final ext = Stream.iterate('a', { str -> str + 'a' } as UnaryOperator)
+                .filter { str -> FACTORIES.every { factory -> !factory.extensions.contains(str) } }
+                .findAny().orElseThrow { new RuntimeException('unable to find unknown script engine extension') }
+        final file = tmp.newFile(FILENAME_WITHOUT_EXT + ext)
+        file.text = FILE_CONTENTS
+
+        expect:
+        proc.apply(factory.names[0] + ':' + file.absolutePath) == new Script(factory.languageName, FILE_CONTENTS)
+
+        where:
+        factory << FACTORIES.findAll { it.names }
     }
 
     def 'reads source code prefixed with a name'() {
