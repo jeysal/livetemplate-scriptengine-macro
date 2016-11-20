@@ -16,6 +16,7 @@ import java.util.stream.Stream
  */
 class ScriptProcessorTest extends Specification {
     private static final FILENAME_WITHOUT_EXT = 'test'
+    private static final INVALID_FILENAME = '/*:\0\n\\'
     private static final SCRIPT_SOURCE = 'abc\nDeF\nXYZ'
 
     private static final List<ScriptEngineFactory> FACTORIES = new ScriptEngineManager().engineFactories
@@ -166,6 +167,20 @@ class ScriptProcessorTest extends Specification {
 
         where:
         factory << FACTORIES.findAll { it.names }
+    }
+
+    def 'throws when passed an invalid path'() {
+        setup:
+        final file = new File(tmp.newFolder(), INVALID_FILENAME + '.' + factory.extensions[0])
+
+        when:
+        proc.apply(file.absolutePath)
+
+        then:
+        thrown(RuntimeException)
+
+        where:
+        factory << FACTORIES.findAll { it.extensions }
     }
 
     def 'reads source code prefixed with a name'() {
