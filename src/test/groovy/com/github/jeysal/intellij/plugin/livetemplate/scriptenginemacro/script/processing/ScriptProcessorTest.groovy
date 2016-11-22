@@ -210,6 +210,14 @@ class ScriptProcessorTest extends Specification {
         factory << FACTORIES.findAll { it.names }
     }
 
+    def 'throws when passed source code without prefix'() {
+        when:
+        proc.apply(SCRIPT_SOURCE)
+
+        then:
+        thrown(RuntimeException)
+    }
+
     def 'throws when passed any Object'() {
         when:
         proc.apply(new Object())
