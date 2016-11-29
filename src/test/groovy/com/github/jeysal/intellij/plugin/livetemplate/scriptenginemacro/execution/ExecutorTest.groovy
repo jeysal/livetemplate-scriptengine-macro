@@ -53,4 +53,16 @@ class ExecutorTest extends Specification {
         1 * engine.put('_goal', 'RESULT')
         1 * engine.put('_editor', editor)
     }
+
+    def 'sets the output writer'() {
+        setup:
+        Writer writer
+
+        when:
+        exec.apply(new Execution(new Script('lang', 'src'), new Context([], Goal.RESULT, Mock(Editor))))
+
+        then:
+        1 * context.setWriter({ writer = it })
+        1 * engine.put('_out', { it == writer })
+    }
 }
