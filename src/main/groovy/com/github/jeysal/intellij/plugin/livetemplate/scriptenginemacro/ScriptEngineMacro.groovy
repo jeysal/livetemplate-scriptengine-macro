@@ -4,6 +4,8 @@ import com.github.jeysal.intellij.plugin.livetemplate.scriptenginemacro.conversi
 import com.github.jeysal.intellij.plugin.livetemplate.scriptenginemacro.conversion.param.ParamConverter
 import com.github.jeysal.intellij.plugin.livetemplate.scriptenginemacro.conversion.result.ResultConverter
 import com.github.jeysal.intellij.plugin.livetemplate.scriptenginemacro.execution.Executor
+import com.github.jeysal.intellij.plugin.livetemplate.scriptenginemacro.execution.data.Context
+import com.github.jeysal.intellij.plugin.livetemplate.scriptenginemacro.execution.data.Execution
 import com.github.jeysal.intellij.plugin.livetemplate.scriptenginemacro.execution.data.Goal
 import com.github.jeysal.intellij.plugin.livetemplate.scriptenginemacro.script.processing.ScriptProcessor
 import com.intellij.codeInsight.lookup.LookupElement
@@ -28,7 +30,7 @@ class ScriptEngineMacro extends Macro {
     private final ScriptProcessor processor = new ScriptProcessor()
     private final ParamConverter paramConv = new ParamConverter()
 
-    private final Executor exec = new Executor()
+    private final Executor executor = new Executor()
 
     private final ResultConverter resConv = new ResultConverter()
     private final LookupElementsConverter lookupElemConv = new LookupElementsConverter()
@@ -45,15 +47,15 @@ class ScriptEngineMacro extends Macro {
 
     @Override
     Result calculateResult(@NotNull final Expression[] params, final ExpressionContext context) {
-        resConv.apply(calculate(params, context, Goal.RESULT))
+        resConv.apply(calculate(params as List, context, Goal.RESULT))
     }
 
     @Override
     LookupElement[] calculateLookupItems(@NotNull final Expression[] params, final ExpressionContext context) {
-        lookupElemConv.apply(calculate(params, context, Goal.LOOKUP_ELEMENTS))
+        lookupElemConv.apply(calculate(params as List, context, Goal.LOOKUP_ELEMENTS))
     }
 
-    private Object calculate(@NotNull final Expression[] params, final ExpressionContext context, final Goal goal) {
+    private Object calculate(@NotNull final List<Expression> params, final ExpressionContext context, final Goal goal) {
         // process script param
         def script
 
@@ -65,5 +67,11 @@ class ScriptEngineMacro extends Macro {
         } catch (RuntimeException e) {
             return e.message
         }
+
+        // exec
+        final args = params.tail().collect { it.calculateResult(context) }.collect paramConv.&apply
+        Execution exec = new Execution(script, new Context(args, goal, context.editor))
+
+        executor.apply exec
     }
 }
