@@ -9,7 +9,7 @@ import groovy.transform.Immutable
  * @author seckinger
  * @since 10/24/16
  */
-@Immutable
+@Immutable(knownImmutableClasses = [Context])
 class Execution {
     Script script
     Context context
