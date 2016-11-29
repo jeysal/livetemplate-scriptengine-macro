@@ -1,11 +1,17 @@
 package com.github.jeysal.intellij.plugin.livetemplate.scriptenginemacro.execution
 
+import com.github.jeysal.intellij.plugin.livetemplate.scriptenginemacro.execution.data.Context
+import com.github.jeysal.intellij.plugin.livetemplate.scriptenginemacro.execution.data.Execution
+import com.github.jeysal.intellij.plugin.livetemplate.scriptenginemacro.execution.data.Goal
+import com.github.jeysal.intellij.plugin.livetemplate.scriptenginemacro.execution.data.Script
+import com.intellij.openapi.editor.Editor
 import spock.lang.Specification
 
 import javax.script.ScriptContext
 import javax.script.ScriptEngine
 import javax.script.ScriptEngineFactory
 import javax.script.ScriptEngineManager
+
 /**
  * @author seckinger
  * @since 11/29/16
@@ -24,5 +30,14 @@ class ExecutorTest extends Specification {
         factory.scriptEngine >> engine
         engine.context >> context
         manager.engineFactories >> [factory]
+    }
+
+    def 'returns the script result'() {
+        when:
+        final res = exec.apply(new Execution(new Script('lang', 'src'), new Context([], Goal.RESULT, Mock(Editor))))
+
+        then:
+        1 * engine.eval('src') >> 'asdf'
+        res == 'asdf'
     }
 }
