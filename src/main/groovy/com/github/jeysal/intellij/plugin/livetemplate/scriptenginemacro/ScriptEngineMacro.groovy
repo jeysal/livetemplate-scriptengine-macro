@@ -23,6 +23,7 @@ import org.jetbrains.annotations.NotNull
 class ScriptEngineMacro extends Macro {
     private static final NAME = 'script'
     private static final SCRIPT_PARAM_FORMAT = '"path or language:code"'
+    private static final PRESENTABLE_NAME = "$NAME($SCRIPT_PARAM_FORMAT, args...)"
 
     private final ScriptProcessor processor = new ScriptProcessor()
     private final ParamConverter paramConv = new ParamConverter()
@@ -39,7 +40,7 @@ class ScriptEngineMacro extends Macro {
 
     @Override
     String getPresentableName() {
-        "$NAME($SCRIPT_PARAM_FORMAT, args...)"
+        PRESENTABLE_NAME
     }
 
     @Override
