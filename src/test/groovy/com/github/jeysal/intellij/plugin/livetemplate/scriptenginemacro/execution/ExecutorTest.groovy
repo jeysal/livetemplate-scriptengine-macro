@@ -7,10 +7,7 @@ import com.github.jeysal.intellij.plugin.livetemplate.scriptenginemacro.executio
 import com.intellij.openapi.editor.Editor
 import spock.lang.Specification
 
-import javax.script.ScriptContext
-import javax.script.ScriptEngine
-import javax.script.ScriptEngineFactory
-import javax.script.ScriptEngineManager
+import javax.script.*
 
 /**
  * @author seckinger
@@ -39,6 +36,18 @@ class ExecutorTest extends Specification {
         then:
         1 * engine.eval('src') >> 'asdf'
         res == 'asdf'
+    }
+
+    def 'returns a thrown exception'() {
+        setup:
+        final ex = new ScriptException('')
+
+        when:
+        final res = exec.apply(new Execution(new Script('lang', 'src'), new Context([], Goal.RESULT, Mock(Editor))))
+
+        then:
+        1 * engine.eval('src') >> { throw ex }
+        res == ex
     }
 
     def 'sets script variables'() {
