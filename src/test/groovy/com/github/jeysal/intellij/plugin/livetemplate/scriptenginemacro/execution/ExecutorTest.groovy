@@ -40,4 +40,17 @@ class ExecutorTest extends Specification {
         1 * engine.eval('src') >> 'asdf'
         res == 'asdf'
     }
+
+    def 'sets script variables'() {
+        setup:
+        Editor editor = Mock()
+
+        when:
+        exec.apply(new Execution(new Script('lang', 'src'), new Context(['arg0'], Goal.RESULT, editor)))
+
+        then:
+        1 * engine.put('_args', ['arg0'])
+        1 * engine.put('_goal', 'RESULT')
+        1 * engine.put('_editor', editor)
+    }
 }
