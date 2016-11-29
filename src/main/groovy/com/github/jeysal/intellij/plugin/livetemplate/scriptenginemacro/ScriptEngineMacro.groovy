@@ -54,6 +54,16 @@ class ScriptEngineMacro extends Macro {
     }
 
     private Object calculate(@NotNull final Expression[] params, final ExpressionContext context, final Goal goal) {
-        null
+        // process script param
+        def script
+
+        if (!params)
+            return 'too few arguments'
+
+        try {
+            script = processor.apply(paramConv.apply(params[0].calculateResult(context)))
+        } catch (RuntimeException e) {
+            return e.message
+        }
     }
 }
