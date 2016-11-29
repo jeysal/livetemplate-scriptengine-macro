@@ -1,0 +1,26 @@
+<idea-plugin version="2">
+    <id>com.github.jeysal.intellij.plugin.livetemplate.scriptenginemacro</id>
+    <name>LiveTemplate ScriptEngine Macro</name>
+
+    <description>
+        <![CDATA[
+        A plugin for enhanced live template scripting support.
+        Check out the <a href="https://github.com/jeysal/livetemplate-scriptengine-macro">GitHub repository</a>
+        for more information and usage instructions.
+        ]]>
+    </description>
+
+    <change-notes>
+        <![CDATA[
+        1.0.0
+        <ul>
+            <li>Initial release</li>
+        </ul>
+        ]]>
+    </change-notes>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <liveTemplateMacro
+                implementation="com.github.jeysal.intellij.plugin.livetemplate.scriptenginemacro.ScriptEngineMacro"/>
+    </extensions>
+</idea-plugin>
