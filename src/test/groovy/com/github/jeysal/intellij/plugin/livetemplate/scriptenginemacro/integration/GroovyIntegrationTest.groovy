@@ -49,4 +49,22 @@ class GroovyIntegrationTest extends Specification {
         then:
         elems == ['asdf']
     }
+
+    def 'script returns some args'() {
+        given:
+        src($/_args.tail()/$)
+
+        when:
+        TextResult res = macro.calculateResult([scriptParam, expr('a'), expr('b'), expr('c')] as Expression[], ctx)
+
+        then:
+        res.text == 'b'
+
+        when:
+        List elems = macro.calculateLookupItems([scriptParam, expr('a'), expr('b'), expr('c')] as Expression[], ctx)
+                .collect { it.lookupString }
+
+        then:
+        elems == ['b', 'c']
+    }
 }
