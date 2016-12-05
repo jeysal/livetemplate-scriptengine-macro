@@ -30,5 +30,6 @@ dependencies {
 // IDEA
 
 intellij {
+    version = ideaVersion
     downloadSources = Boolean.valueOf(downloadIdeaSources)
 }
