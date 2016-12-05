@@ -26,3 +26,9 @@ dependencies {
         exclude group: 'org.codehaus.groovy', module: 'groovy-all'
     }
 }
+
+// IDEA
+
+intellij {
+    downloadSources = Boolean.valueOf(downloadIdeaSources)
+}
