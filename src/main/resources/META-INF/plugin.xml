@@ -2,6 +2,8 @@
     <id>com.github.jeysal.intellij.plugin.livetemplate.scriptenginemacro</id>
     <name>LiveTemplate ScriptEngine Macro</name>
 
+    <vendor url="https://github.com/jeysal" email="seckinger.tim@gmail.com"/>
+
     <description>
         <![CDATA[
         A plugin for enhanced live template scripting support.
