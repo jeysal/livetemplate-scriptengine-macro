@@ -172,4 +172,18 @@ xyz''']
         then:
         elems == ['42']
     }
+
+    def 'script arg missing'() {
+        when:
+        TextResult res = macro.calculateResult([] as Expression[], ctx)
+
+        then:
+        res.text == 'too few arguments'
+
+        when:
+        List elems = macro.calculateLookupItems([] as Expression[], ctx).collect { it.lookupString }
+
+        then:
+        elems == ['too few arguments']
+    }
 }
