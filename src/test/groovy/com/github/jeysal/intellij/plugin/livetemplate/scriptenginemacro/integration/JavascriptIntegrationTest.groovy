@@ -156,4 +156,26 @@ return 42;
         then:
         elems == ['42']
     }
+
+    def 'script from prefix and file'() {
+        setup:
+        final file = tmp.newFile('test')
+        file.text = $/(function() {
+return 42;
+})()/$
+
+        scriptParam.calculateResult(ctx) >> new TextResult("javascript:$file.absolutePath")
+
+        when:
+        TextResult res = macro.calculateResult([scriptParam] as Expression[], ctx)
+
+        then:
+        res.text == '42'
+
+        when:
+        List elems = macro.calculateLookupItems([scriptParam] as Expression[], ctx).collect { it.lookupString }
+
+        then:
+        elems == ['42']
+    }
 }
