@@ -93,4 +93,23 @@ return arr;
         then:
         elems == ['c', 'b', 'a']
     }
+
+    def 'script return depends on goal'() {
+        given:
+        src($/(function() {
+return _goal === 'RESULT' ? 1 : 2;
+})()/$)
+
+        when:
+        TextResult res = macro.calculateResult([scriptParam] as Expression[], ctx)
+
+        then:
+        res.text == '1'
+
+        when:
+        List elems = macro.calculateLookupItems([scriptParam] as Expression[], ctx).collect { it.lookupString }
+
+        then:
+        elems == ['2']
+    }
 }
