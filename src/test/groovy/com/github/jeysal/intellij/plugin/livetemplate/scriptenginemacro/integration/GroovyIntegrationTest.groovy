@@ -106,4 +106,25 @@ class GroovyIntegrationTest extends Specification {
         then:
         elems == ['xyz']
     }
+
+    def 'script returns _out'() {
+        given:
+        src($/println 'abc'
+print 'xyz'
+_out/$)
+
+        when:
+        TextResult res = macro.calculateResult([scriptParam] as Expression[], ctx)
+
+        then:
+        res.text == '''abc
+xyz'''
+
+        when:
+        List elems = macro.calculateLookupItems([scriptParam] as Expression[], ctx).collect { it.lookupString }
+
+        then:
+        elems == ['''abc
+xyz''']
+    }
 }
