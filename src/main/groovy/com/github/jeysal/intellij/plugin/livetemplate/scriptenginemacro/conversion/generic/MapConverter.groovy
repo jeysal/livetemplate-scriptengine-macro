@@ -9,7 +9,7 @@ import java.util.function.Function
 trait MapConverter<R> implements Function<Object, R> {
     R apply(final obj) {
         obj instanceof Map ?
-                apply(obj.entrySet().spliterator()) :
+                apply(obj.values().spliterator()) :
                 super.apply(obj)
     }
 }

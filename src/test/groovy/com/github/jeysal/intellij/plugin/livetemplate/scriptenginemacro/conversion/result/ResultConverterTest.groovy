@@ -25,8 +25,7 @@ class ResultConverterTest extends Specification {
                 Stream.of(42, 1337), Stream.empty(),
                 [abc: 42, xyz: 1337], [:]
         ]
-        res << ['42', 'null'] * 4 +
-                ['abc=42', 'null']
+        res << ['42', 'null'] * 5
     }
 
     def 'fully reads a Reader into a TextResult'() {

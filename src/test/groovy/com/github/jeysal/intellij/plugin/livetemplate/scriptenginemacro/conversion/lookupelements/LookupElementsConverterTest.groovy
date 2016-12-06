@@ -23,8 +23,7 @@ class LookupElementsConverterTest extends Specification {
                 Stream.of(42, 1337), Stream.empty(),
                 [abc: 42, xyz: 1337], [:]
         ]
-        res << [[42, 1337], []] * 4 +
-                [[abc: 42, xyz: 1337].entrySet() as List, []]
+        res << [[42, 1337], []] * 5
     }
 
     def 'flattens a Collection before wrapping the elements'() {
