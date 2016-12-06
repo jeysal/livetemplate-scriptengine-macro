@@ -134,4 +134,26 @@ xyz'''
         elems == ['''abc
 xyz''']
     }
+
+    def 'script from file'() {
+        setup:
+        final file = tmp.newFile('test.js')
+        file.text = $/(function() {
+return 42;
+})()/$
+
+        scriptParam.calculateResult(ctx) >> new TextResult(file.absolutePath)
+
+        when:
+        TextResult res = macro.calculateResult([scriptParam] as Expression[], ctx)
+
+        then:
+        res.text == '42'
+
+        when:
+        List elems = macro.calculateLookupItems([scriptParam] as Expression[], ctx).collect { it.lookupString }
+
+        then:
+        elems == ['42']
+    }
 }
