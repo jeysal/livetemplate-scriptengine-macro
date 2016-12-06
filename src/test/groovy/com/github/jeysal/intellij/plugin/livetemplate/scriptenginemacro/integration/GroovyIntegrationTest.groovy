@@ -3,6 +3,7 @@ package com.github.jeysal.intellij.plugin.livetemplate.scriptenginemacro.integra
 import com.github.jeysal.intellij.plugin.livetemplate.scriptenginemacro.ScriptEngineMacro
 import com.intellij.codeInsight.template.Expression
 import com.intellij.codeInsight.template.ExpressionContext
+import com.intellij.codeInsight.template.ListResult
 import com.intellij.codeInsight.template.TextResult
 import spock.lang.Specification
 
@@ -83,5 +84,26 @@ class GroovyIntegrationTest extends Specification {
 
         then:
         elems == ['2']
+    }
+
+    def 'script uses list arg'() {
+        given:
+        src($/_args[0][1]/$)
+
+        final arg = Mock(Expression) {
+            calculateResult(ctx) >> new ListResult([new TextResult('abc'), new TextResult('xyz')])
+        }
+
+        when:
+        TextResult res = macro.calculateResult([scriptParam, arg] as Expression[], ctx)
+
+        then:
+        res.text == 'xyz'
+
+        when:
+        List elems = macro.calculateLookupItems([scriptParam, arg] as Expression[], ctx).collect { it.lookupString }
+
+        then:
+        elems == ['xyz']
     }
 }
