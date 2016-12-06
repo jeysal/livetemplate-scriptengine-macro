@@ -71,4 +71,26 @@ class JavascriptIntegrationTest extends Specification {
         then:
         elems == ['asdf']
     }
+
+    def 'script uses native js array'() {
+        given:
+        src($/(function() {
+var arr = Java.from(_args);
+arr.reverse();
+return arr;
+})()/$)
+
+        when:
+        TextResult res = macro.calculateResult([scriptParam, expr('a'), expr('b'), expr('c')] as Expression[], ctx)
+
+        then:
+        res.text == 'c'
+
+        when:
+        List elems = macro.calculateLookupItems([scriptParam, expr('a'), expr('b'), expr('c')] as Expression[], ctx)
+                .collect { it.lookupString }
+
+        then:
+        elems == ['c', 'b', 'a']
+    }
 }
