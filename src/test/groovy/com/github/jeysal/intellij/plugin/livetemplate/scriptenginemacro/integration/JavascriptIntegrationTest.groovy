@@ -112,4 +112,26 @@ return _goal === 'RESULT' ? 1 : 2;
         then:
         elems == ['2']
     }
+
+    def 'script returns _out'() {
+        given:
+        src($/(function() {
+_out.write('abc\nxyz');
+return _out;
+})()/$)
+
+        when:
+        TextResult res = macro.calculateResult([scriptParam] as Expression[], ctx)
+
+        then:
+        res.text == '''abc
+xyz'''
+
+        when:
+        List elems = macro.calculateLookupItems([scriptParam] as Expression[], ctx).collect { it.lookupString }
+
+        then:
+        elems == ['''abc
+xyz''']
+    }
 }
