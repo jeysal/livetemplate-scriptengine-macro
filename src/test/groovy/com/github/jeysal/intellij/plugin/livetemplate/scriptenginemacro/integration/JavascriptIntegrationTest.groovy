@@ -135,6 +135,26 @@ xyz'''
 xyz''']
     }
 
+    def 'script throws'() {
+        given:
+        src($/(function() {
+throw 'died horribly';
+})()/$)
+
+        when:
+        TextResult res = macro.calculateResult([scriptParam] as Expression[], ctx)
+
+        then:
+        res.text.startsWith 'javax.script.ScriptException: died horribly'
+
+        when:
+        List elems = macro.calculateLookupItems([scriptParam] as Expression[], ctx).collect { it.lookupString }
+
+        then:
+        elems.size() == 1
+        elems[0].startsWith 'javax.script.ScriptException: died horribly'
+    }
+
     def 'script from file'() {
         setup:
         final file = tmp.newFile('test.js')
