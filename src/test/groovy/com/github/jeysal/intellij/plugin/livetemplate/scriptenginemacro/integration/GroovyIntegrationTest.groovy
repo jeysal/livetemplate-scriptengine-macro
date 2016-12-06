@@ -1,10 +1,7 @@
 package com.github.jeysal.intellij.plugin.livetemplate.scriptenginemacro.integration
 
 import com.github.jeysal.intellij.plugin.livetemplate.scriptenginemacro.ScriptEngineMacro
-import com.intellij.codeInsight.template.Expression
-import com.intellij.codeInsight.template.ExpressionContext
-import com.intellij.codeInsight.template.ListResult
-import com.intellij.codeInsight.template.TextResult
+import com.intellij.codeInsight.template.*
 import org.junit.Rule
 import org.junit.rules.TemporaryFolder
 import spock.lang.Specification
@@ -110,6 +107,17 @@ class GroovyIntegrationTest extends Specification {
 
         then:
         elems == ['xyz']
+    }
+
+    def 'script returns closure'() {
+        given:
+        src($/{ -> _args[0] }/$)
+
+        when:
+        InvokeActionResult res = macro.calculateResult([scriptParam, expr('asdf')] as Expression[], ctx)
+
+        then:
+        (res.action as Closure).call() == 'asdf'
     }
 
     def 'script returns _out'() {
