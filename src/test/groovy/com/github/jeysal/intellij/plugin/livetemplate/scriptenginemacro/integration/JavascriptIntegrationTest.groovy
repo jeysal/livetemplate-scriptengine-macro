@@ -54,4 +54,21 @@ class JavascriptIntegrationTest extends Specification {
         then:
         elems == ['asdf']
     }
+
+    def 'script omits an iife'() {
+        given:
+        src($/'asdf'/$)
+
+        when:
+        TextResult res = macro.calculateResult([scriptParam] as Expression[], ctx)
+
+        then:
+        res.text == 'asdf'
+
+        when:
+        List elems = macro.calculateLookupItems([scriptParam] as Expression[], ctx).collect { it.lookupString }
+
+        then:
+        elems == ['asdf']
+    }
 }
