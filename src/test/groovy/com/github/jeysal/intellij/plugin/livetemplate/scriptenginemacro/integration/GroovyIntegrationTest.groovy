@@ -67,4 +67,21 @@ class GroovyIntegrationTest extends Specification {
         then:
         elems == ['b', 'c']
     }
+
+    def 'script return depends on goal'() {
+        given:
+        src($/_goal == 'RESULT' ? 1 : 2/$)
+
+        when:
+        TextResult res = macro.calculateResult([scriptParam] as Expression[], ctx)
+
+        then:
+        res.text == '1'
+
+        when:
+        List elems = macro.calculateLookupItems([scriptParam] as Expression[], ctx).collect { it.lookupString }
+
+        then:
+        elems == ['2']
+    }
 }
