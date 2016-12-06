@@ -152,4 +152,24 @@ xyz''']
         then:
         elems == ['42']
     }
+
+    def 'script from prefix and file'() {
+        setup:
+        final file = tmp.newFile('test')
+        file.text = $/21 * 2/$
+
+        scriptParam.calculateResult(ctx) >> new TextResult("groovy:$file.absolutePath")
+
+        when:
+        TextResult res = macro.calculateResult([scriptParam] as Expression[], ctx)
+
+        then:
+        res.text == '42'
+
+        when:
+        List elems = macro.calculateLookupItems([scriptParam] as Expression[], ctx).collect { it.lookupString }
+
+        then:
+        elems == ['42']
+    }
 }
