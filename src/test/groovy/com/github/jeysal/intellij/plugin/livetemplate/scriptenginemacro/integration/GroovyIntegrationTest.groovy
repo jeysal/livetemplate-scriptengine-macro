@@ -133,6 +133,23 @@ xyz'''
 xyz''']
     }
 
+    def 'script throws'() {
+        given:
+        src($/throw new RuntimeException('asdf')/$)
+
+        when:
+        TextResult res = macro.calculateResult([scriptParam] as Expression[], ctx)
+
+        then:
+        res.text == 'javax.script.ScriptException: javax.script.ScriptException: java.lang.RuntimeException: asdf'
+
+        when:
+        List elems = macro.calculateLookupItems([scriptParam] as Expression[], ctx).collect { it.lookupString }
+
+        then:
+        elems == ['javax.script.ScriptException: javax.script.ScriptException: java.lang.RuntimeException: asdf']
+    }
+
     def 'script from file'() {
         setup:
         final file = tmp.newFile('test.groovy')
