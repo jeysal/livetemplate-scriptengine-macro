@@ -5,6 +5,8 @@ import com.intellij.codeInsight.template.Expression
 import com.intellij.codeInsight.template.ExpressionContext
 import com.intellij.codeInsight.template.ListResult
 import com.intellij.codeInsight.template.TextResult
+import org.junit.Rule
+import org.junit.rules.TemporaryFolder
 import spock.lang.Specification
 
 import javax.script.ScriptEngineManager
@@ -19,6 +21,9 @@ class GroovyIntegrationTest extends Specification {
     final macro = new ScriptEngineMacro()
     final Expression scriptParam = Mock()
     final ExpressionContext ctx = Mock()
+
+    @Rule
+    TemporaryFolder tmp = new TemporaryFolder()
 
     def setupSpec() {
         assumeNotNull new ScriptEngineManager().getEngineByName('groovy')
@@ -126,5 +131,25 @@ xyz'''
         then:
         elems == ['''abc
 xyz''']
+    }
+
+    def 'script from file'() {
+        setup:
+        final file = tmp.newFile('test.groovy')
+        file.text = $/21 * 2/$
+
+        scriptParam.calculateResult(ctx) >> new TextResult(file.absolutePath)
+
+        when:
+        TextResult res = macro.calculateResult([scriptParam] as Expression[], ctx)
+
+        then:
+        res.text == '42'
+
+        when:
+        List elems = macro.calculateLookupItems([scriptParam] as Expression[], ctx).collect { it.lookupString }
+
+        then:
+        elems == ['42']
     }
 }
