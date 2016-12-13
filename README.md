@@ -6,6 +6,8 @@
 
 An IntelliJ IDEA plugin for enhanced live template scripting support
 
+Enables you to insert text, offer completion options or perform editor actions using your own scripts when inserting a live template.
+
 ## Installation
 
 Once released, you will be able to install the plugin from the [JetBrains IntelliJ IDEA Plugin Repository](https://plugins.jetbrains.com/).
