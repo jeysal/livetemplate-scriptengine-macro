@@ -17,4 +17,6 @@ cache:
     - $HOME/.gradle/caches/
     - $HOME/.gradle/wrapper/
 
-env: ORG_GRADLE_PROJECT_downloadIdeaSources=false
+env:
+  global:
+    - ORG_GRADLE_PROJECT_downloadIdeaSources=false
