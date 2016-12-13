@@ -130,15 +130,13 @@ _out/$)
         TextResult res = macro.calculateResult([scriptParam] as Expression[], ctx)
 
         then:
-        res.text == '''abc
-xyz'''
+        res.text == 'abc' + System.lineSeparator() + 'xyz'
 
         when:
         List elems = macro.calculateLookupItems([scriptParam] as Expression[], ctx).collect { it.lookupString }
 
         then:
-        elems == ['''abc
-xyz''']
+        elems == ['abc' + System.lineSeparator() + 'xyz']
     }
 
     def 'script throws'() {
