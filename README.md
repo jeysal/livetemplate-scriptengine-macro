@@ -5,3 +5,15 @@
 [![license](https://img.shields.io/github/license/jeysal/livetemplate-scriptengine-macro.svg?style=flat-square)](https://github.com/jeysal/livetemplate-scriptengine-macro/blob/master/LICENSE)
 
 An IntelliJ IDEA plugin for enhanced live template scripting support
+
+## Installation
+
+Once released, you will be able to install the plugin from the [JetBrains IntelliJ IDEA Plugin Repository](https://plugins.jetbrains.com/).
+
+## Usage
+
+TODO
+
+## License
+
+livetemplate-scriptengine-macro is [MIT-licensed](https://github.com/jeysal/livetemplate-scriptengine-macro/blob/master/LICENSE).
