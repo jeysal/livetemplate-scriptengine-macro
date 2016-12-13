@@ -22,9 +22,11 @@ Click "Edit variables" and look for the row with your variable.
 In the expression field, enter for example `script("javascript:21 * 2")`.
 This will replace your variable with the result of the javascript expression `21 * 2`.
 
-You can also use another language that has a ScriptEngine available.
-Alternatively, you can specify a file path (relative to your home directory or absolute)
+You can also [use another language](https://github.com/jeysal/livetemplate-scriptengine-macro/wiki/Defining-a-script#languages) that has a ScriptEngine available.
+Alternatively, you can [specify a file path](https://github.com/jeysal/livetemplate-scriptengine-macro/wiki/Defining-a-script#script-from-a-file) (relative to your home directory or absolute)
 to avoid writing complex scripts inline in the template variable editor.
+
+For more comprehensive and detailed documentation, check out the [wiki](https://github.com/jeysal/livetemplate-scriptengine-macro/wiki)!
 
 ## License
 
