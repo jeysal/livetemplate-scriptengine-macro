@@ -11,13 +11,13 @@ import java.util.function.BiFunction
  * @since 10/24/16
  */
 trait FileScriptProcessor implements BiFunction<Object, String, Script> {
-    private static final BASE_DIRS = ['', System.getProperty('user.home')]
+    private static final BASE_DIRS = [null, '', System.getProperty('user.home')]
     private final manager = new ScriptEngineManager()
 
     Script apply(final obj, final String lang) {
         if (obj instanceof CharSequence) {
             final param = obj.toString()
-            final file = BASE_DIRS.collect { new File(it, param) }.find { it.exists() }
+            final file = BASE_DIRS.collect { new File(it as String, param) }.find { it.exists() }
 
             if (file) {
                 final newLang = lang ?:
