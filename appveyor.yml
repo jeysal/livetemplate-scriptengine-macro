@@ -1,2 +1,5 @@
 build_script:
   - gradlew check --info
+
+environment:
+  ORG_GRADLE_PROJECT_downloadIdeaSources: false
