@@ -23,7 +23,7 @@ In the expression field, enter for example `script("javascript:21 * 2")`.
 This will replace your variable with the result of the javascript expression `21 * 2`.
 
 You can also use another language that has a ScriptEngine available.
-Alternatively, you can specify a file path (relative to your home directory)
+Alternatively, you can specify a file path (relative to your home directory or absolute)
 to avoid writing complex scripts inline in the template variable editor.
 
 ## License
