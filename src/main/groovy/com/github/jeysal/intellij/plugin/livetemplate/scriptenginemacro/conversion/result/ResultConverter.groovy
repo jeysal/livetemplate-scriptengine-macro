@@ -13,6 +13,5 @@ class ResultConverter extends DefaultResultConverter implements
         IteratorConverter,
         MapConverter,
         ReaderConverter,
-        RunnableInvokeActionResultConverter,
         SpliteratorResultConverter {
 }

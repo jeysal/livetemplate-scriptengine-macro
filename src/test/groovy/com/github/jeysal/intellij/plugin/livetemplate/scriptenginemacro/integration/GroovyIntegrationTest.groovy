@@ -109,17 +109,6 @@ class GroovyIntegrationTest extends Specification {
         elems == ['xyz']
     }
 
-    def 'script returns closure'() {
-        given:
-        src($/{ -> _args[0] }/$)
-
-        when:
-        InvokeActionResult res = macro.calculateResult([scriptParam, expr('asdf')] as Expression[], ctx)
-
-        then:
-        (res.action as Closure).call() == 'asdf'
-    }
-
     def 'script returns _out'() {
         given:
         src($/println 'abc'

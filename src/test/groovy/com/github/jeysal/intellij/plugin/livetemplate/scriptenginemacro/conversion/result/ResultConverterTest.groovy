@@ -1,6 +1,5 @@
 package com.github.jeysal.intellij.plugin.livetemplate.scriptenginemacro.conversion.result
 
-import com.intellij.codeInsight.template.InvokeActionResult
 import com.intellij.codeInsight.template.TextResult
 import spock.lang.Specification
 
@@ -36,15 +35,6 @@ class ResultConverterTest extends Specification {
     def 'fully reads an InputStream into a TextResult'() {
         expect:
         (conv.apply(new ByteArrayInputStream('asdf'.bytes)) as TextResult).text == 'asdf'
-    }
-
-    def 'wraps a Runnable in an InvokeActionResult'() {
-        given:
-        final run = { -> } as Runnable
-        final res = conv.apply(run) as InvokeActionResult
-
-        expect:
-        res.action == run
     }
 
     def 'toStrings any object into a TextResult'() {
