@@ -32,4 +32,9 @@ dependencies {
 intellij {
     version = ideaVersion
     downloadSources = Boolean.valueOf(downloadIdeaSources)
+
+    publish {
+        username pluginRepoUsername
+        password pluginRepoPassword
+    }
 }
