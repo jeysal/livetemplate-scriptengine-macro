@@ -1,6 +1,7 @@
 package com.github.jeysal.intellij.plugin.livetemplate.scriptenginemacro.execution
 
 import com.github.jeysal.intellij.plugin.livetemplate.scriptenginemacro.execution.data.Execution
+import com.github.jeysal.intellij.plugin.livetemplate.scriptenginemacro.execution.runner.Runner
 
 import javax.script.ScriptEngineManager
 import javax.script.ScriptException
@@ -12,6 +13,7 @@ import java.util.function.Function
  */
 class Executor implements Function<Execution, Object> {
     ScriptEngineManager manager = new ScriptEngineManager()
+    Runner runner = new Runner()
 
     @Override
     Object apply(Execution execution) {
@@ -43,7 +45,7 @@ class Executor implements Function<Execution, Object> {
 
         // run it
         try {
-            return engine.eval(script.source)
+            return runner.apply(execution, engine)
         } catch (ScriptException e) {
             return e
         }
