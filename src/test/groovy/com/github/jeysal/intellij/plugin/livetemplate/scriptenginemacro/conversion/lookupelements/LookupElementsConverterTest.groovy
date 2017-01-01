@@ -17,13 +17,15 @@ class LookupElementsConverterTest extends Specification {
 
         where:
         collection << [
+                [42, 1337] as int[], [] as int[],
+                [42, 1337] as Integer[], [] as Integer[],
                 [42, 1337], [],
                 [42, 1337].iterator(), [].iterator(),
                 Spliterators.spliterator([42, 1337], 0), Spliterators.emptySpliterator(),
                 Stream.of(42, 1337), Stream.empty(),
                 [abc: 42, xyz: 1337], [:]
         ]
-        res << [[42, 1337], []] * 5
+        res << [[42, 1337], []] * 7
     }
 
     def 'flattens a Collection before wrapping the elements'() {

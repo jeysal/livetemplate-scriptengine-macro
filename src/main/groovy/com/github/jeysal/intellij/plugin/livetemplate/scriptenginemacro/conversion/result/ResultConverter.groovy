@@ -7,6 +7,7 @@ import com.github.jeysal.intellij.plugin.livetemplate.scriptenginemacro.conversi
  * @since 10/17/16
  */
 class ResultConverter extends DefaultResultConverter implements
+        ArrayConverter,
         BaseStreamConverter,
         InputStreamConverter,
         IterableConverter,
