@@ -16,24 +16,14 @@ class Executor implements Function<Execution, Object> {
 
     @Override
     Object apply(Execution execution) {
-        final ctx = execution.context
-        final script = execution.script
-
         // find engine
-
-        final lang = script.language
+        final lang = execution.script.language
         final engine = manager.engineFactories.find {
             it.languageName == lang
         }.scriptEngine
 
         if (!engine)
             throw new RuntimeException("Failed to find ScriptEngine for language $lang")
-
-        // script vars
-
-        engine.put '_args', ctx.args
-        engine.put '_goal', ctx.goal.toString()
-        engine.put '_editor', ctx.editor
 
         // run it
         runner.apply(execution, engine)
