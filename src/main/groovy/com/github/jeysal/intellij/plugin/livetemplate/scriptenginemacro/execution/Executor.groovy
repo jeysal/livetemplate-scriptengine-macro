@@ -35,13 +35,6 @@ class Executor implements Function<Execution, Object> {
         engine.put '_goal', ctx.goal.toString()
         engine.put '_editor', ctx.editor
 
-        // output
-
-        final out = new StringWriter()
-
-        engine.context.writer = out
-        engine.put '_out', out
-
         // run it
         runner.apply(execution, engine)
     }
