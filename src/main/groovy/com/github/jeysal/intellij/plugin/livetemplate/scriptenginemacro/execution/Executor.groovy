@@ -4,7 +4,6 @@ import com.github.jeysal.intellij.plugin.livetemplate.scriptenginemacro.executio
 import com.github.jeysal.intellij.plugin.livetemplate.scriptenginemacro.execution.runner.Runner
 
 import javax.script.ScriptEngineManager
-import javax.script.ScriptException
 import java.util.function.Function
 
 /**
@@ -44,10 +43,6 @@ class Executor implements Function<Execution, Object> {
         engine.put '_out', out
 
         // run it
-        try {
-            return runner.apply(execution, engine)
-        } catch (ScriptException e) {
-            return e
-        }
+        runner.apply(execution, engine)
     }
 }
