@@ -1,5 +1,7 @@
 package com.github.jeysal.intellij.plugin.livetemplate.scriptenginemacro.conversion.lookupelements
 
+import com.intellij.codeInsight.lookup.LookupElement
+import com.intellij.codeInsight.lookup.LookupElementBuilder
 import spock.lang.Specification
 
 import java.util.stream.Stream
@@ -41,6 +43,22 @@ class LookupElementsConverterTest extends Specification {
     def 'fully reads an InputStream into a LookupElement'() {
         expect:
         conv.apply(new ByteArrayInputStream('asdf'.bytes)).collect { it.object } == ['asdf']
+    }
+
+    def 'wraps a LookupElement in an array'() {
+        given:
+        final elem = LookupElementBuilder.create('asdf')
+
+        expect:
+        conv.apply(elem) == [elem] as LookupElement[]
+    }
+
+    def 'does not convert a LookupElement array'() {
+        given:
+        final elems = [LookupElementBuilder.create('asdf')] as LookupElement[]
+
+        expect:
+        conv.apply(elems) == elems
     }
 
     def 'wraps any object into a LookupElement'() {
