@@ -39,6 +39,14 @@ class ResultConverterTest extends Specification {
         (conv.apply(new ByteArrayInputStream('asdf'.bytes)) as TextResult).text == 'asdf'
     }
 
+    def 'does not convert a Result'() {
+        given:
+        final res = new TextResult('asdf')
+
+        expect:
+        conv.apply(res) == res
+    }
+
     def 'toStrings any object into a TextResult'() {
         given:
         final obj = new Object()

@@ -14,5 +14,6 @@ class ResultConverter extends DefaultResultConverter implements
         IteratorConverter,
         MapConverter,
         ReaderConverter,
+        IdentityResultConverter,
         SpliteratorResultConverter {
 }
