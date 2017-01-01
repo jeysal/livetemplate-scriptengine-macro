@@ -29,6 +29,11 @@ class ResultConverterTest extends Specification {
         res << ['42', 'null'] * 7
     }
 
+    def 'unwraps an Optional'() {
+        expect:
+        (conv.apply(Optional.of('asdf')) as TextResult).text == 'asdf'
+    }
+
     def 'fully reads a Reader into a TextResult'() {
         expect:
         (conv.apply(new StringReader('asdf')) as TextResult).text == 'asdf'

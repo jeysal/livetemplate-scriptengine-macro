@@ -30,6 +30,11 @@ class LookupElementsConverterTest extends Specification {
         res << [[42, 1337], []] * 7
     }
 
+    def 'unwraps an Optional'() {
+        expect:
+        conv.apply(Optional.of('asdf')).collect { it.object } == ['asdf']
+    }
+
     def 'flattens a Collection before wrapping the elements'() {
         expect:
         conv.apply([[1, 2], 3]).collect { it.object } == [1, 2, 3]
