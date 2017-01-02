@@ -4,10 +4,13 @@ import com.github.jeysal.intellij.plugin.livetemplate.scriptenginemacro.executio
 import com.github.jeysal.intellij.plugin.livetemplate.scriptenginemacro.execution.data.Execution
 import com.github.jeysal.intellij.plugin.livetemplate.scriptenginemacro.execution.data.Goal
 import com.github.jeysal.intellij.plugin.livetemplate.scriptenginemacro.execution.data.Script
+import com.github.jeysal.intellij.plugin.livetemplate.scriptenginemacro.execution.runner.Runner
 import com.intellij.openapi.editor.Editor
 import spock.lang.Specification
 
-import javax.script.*
+import javax.script.ScriptEngine
+import javax.script.ScriptEngineFactory
+import javax.script.ScriptEngineManager
 
 /**
  * @author seckinger
@@ -15,63 +18,33 @@ import javax.script.*
  */
 class ExecutorTest extends Specification {
     Executor exec = new Executor()
-
     ScriptEngineManager manager = Mock()
-    ScriptEngineFactory factory = Mock()
-    ScriptEngine engine = Mock()
-    ScriptContext context = Mock()
+    Runner runner = Mock()
 
     def setup() {
         exec.manager = manager
-        factory.languageName >> 'lang'
-        factory.scriptEngine >> engine
-        engine.context >> context
-        manager.engineFactories >> [factory]
+        exec.runner = runner
     }
 
-    def 'returns the script result'() {
+    def 'calls the runner with the correct ScriptEngine'() {
+        given:
+        ScriptEngineFactory correctFactory = Mock()
+        ScriptEngine correctEngine = Mock()
+        correctFactory.languageName >> 'lang'
+        correctFactory.scriptEngine >> correctEngine
+
+        ScriptEngineFactory wrongFactory = Mock()
+        wrongFactory.languageName >> 'wrongLang'
+
+        manager.engineFactories >> [correctFactory, wrongFactory]
+
+        final execution = new Execution(new Script('lang', 'src'), new Context([], Goal.RESULT, Mock(Editor)))
+
         when:
-        final res = exec.apply(new Execution(new Script('lang', 'src'), new Context([], Goal.RESULT, Mock(Editor))))
+        final res = exec.apply(execution)
 
         then:
-        1 * engine.eval('src') >> 'asdf'
+        1 * runner.apply(execution, correctEngine) >> 'asdf'
         res == 'asdf'
-    }
-
-    def 'returns a thrown exception'() {
-        setup:
-        final ex = new ScriptException('')
-
-        when:
-        final res = exec.apply(new Execution(new Script('lang', 'src'), new Context([], Goal.RESULT, Mock(Editor))))
-
-        then:
-        1 * engine.eval('src') >> { throw ex }
-        res == ex
-    }
-
-    def 'sets script variables'() {
-        setup:
-        Editor editor = Mock()
-
-        when:
-        exec.apply(new Execution(new Script('lang', 'src'), new Context(['arg0'], Goal.RESULT, editor)))
-
-        then:
-        1 * engine.put('_args', ['arg0'])
-        1 * engine.put('_goal', 'RESULT')
-        1 * engine.put('_editor', editor)
-    }
-
-    def 'sets the output writer'() {
-        setup:
-        Writer writer
-
-        when:
-        exec.apply(new Execution(new Script('lang', 'src'), new Context([], Goal.RESULT, Mock(Editor))))
-
-        then:
-        1 * context.setWriter({ writer = it })
-        1 * engine.put('_out', { it == writer })
     }
 }
