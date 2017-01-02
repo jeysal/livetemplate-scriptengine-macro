@@ -4,6 +4,7 @@ import com.intellij.codeInsight.lookup.LookupElement
 import com.intellij.codeInsight.lookup.LookupElementBuilder
 import spock.lang.Specification
 
+import java.util.function.Supplier
 import java.util.stream.Stream
 
 /**
@@ -48,6 +49,11 @@ class LookupElementsConverterTest extends Specification {
     def 'fully reads an InputStream into a LookupElement'() {
         expect:
         conv.apply(new ByteArrayInputStream('asdf'.bytes)).collect { it.object } == ['asdf']
+    }
+
+    def 'gets an element from a Supplier'() {
+        expect:
+        conv.apply({ 'asdf' } as Supplier).collect { it.object } == ['asdf']
     }
 
     def 'wraps a LookupElement in an array'() {

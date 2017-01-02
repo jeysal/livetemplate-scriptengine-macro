@@ -15,6 +15,7 @@ class LookupElementsConverter extends DefaultLookupElementsConverter implements
         MapConverter,
         OptionalConverter,
         ReaderConverter,
+        SupplierConverter,
         SingleLookupElementConverter,
         SpliteratorLookupElementsConverter {
 }

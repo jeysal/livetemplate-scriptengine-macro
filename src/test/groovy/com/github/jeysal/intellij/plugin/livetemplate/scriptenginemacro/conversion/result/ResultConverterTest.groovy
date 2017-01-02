@@ -3,6 +3,7 @@ package com.github.jeysal.intellij.plugin.livetemplate.scriptenginemacro.convers
 import com.intellij.codeInsight.template.TextResult
 import spock.lang.Specification
 
+import java.util.function.Supplier
 import java.util.stream.Stream
 
 /**
@@ -42,6 +43,11 @@ class ResultConverterTest extends Specification {
     def 'fully reads an InputStream into a TextResult'() {
         expect:
         (conv.apply(new ByteArrayInputStream('asdf'.bytes)) as TextResult).text == 'asdf'
+    }
+
+    def 'gets an element from a Supplier'() {
+        expect:
+        (conv.apply({ 'asdf' } as Supplier) as TextResult).text == 'asdf'
     }
 
     def 'does not convert a Result'() {
