@@ -1,7 +1,10 @@
 package com.github.jeysal.intellij.plugin.livetemplate.scriptenginemacro.integration
 
 import com.github.jeysal.intellij.plugin.livetemplate.scriptenginemacro.ScriptEngineMacro
-import com.intellij.codeInsight.template.*
+import com.intellij.codeInsight.template.Expression
+import com.intellij.codeInsight.template.ExpressionContext
+import com.intellij.codeInsight.template.ListResult
+import com.intellij.codeInsight.template.TextResult
 import org.junit.Rule
 import org.junit.rules.TemporaryFolder
 import spock.lang.Specification
@@ -39,6 +42,23 @@ class GroovyIntegrationTest extends Specification {
     def 'script returns a string'() {
         given:
         src($/"asdf"/$)
+
+        when:
+        TextResult res = macro.calculateResult([scriptParam] as Expression[], ctx)
+
+        then:
+        res.text == 'asdf'
+
+        when:
+        List elems = macro.calculateLookupItems([scriptParam] as Expression[], ctx).collect { it.lookupString }
+
+        then:
+        elems == ['asdf']
+    }
+
+    def 'script returns a Supplier'() {
+        given:
+        src($/{ -> 'asdf' } as java.util.function.Supplier/$)
 
         when:
         TextResult res = macro.calculateResult([scriptParam] as Expression[], ctx)
