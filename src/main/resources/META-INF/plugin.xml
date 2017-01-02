@@ -15,10 +15,18 @@
 
     <change-notes>
         <![CDATA[
-        1.0.0
+        <h1>1.1.0</h1>
+        <h2>Features</h2>
+        <h3>Script return values</h3>
         <ul>
-            <li>Initial release</li>
+            <li>add Optional support</li>
+            <li>add Supplier support</li>
+            <li>add Result support</li>
+            <li>add LookupElement support</li>
         </ul>
+
+        <h1>1.0.0</h1>
+        Initial release
         ]]>
     </change-notes>
 
