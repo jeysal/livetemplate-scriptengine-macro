@@ -4,17 +4,16 @@ import com.github.jeysal.intellij.plugin.livetemplate.scriptenginemacro.executio
 
 import javax.script.ScriptEngine
 import javax.script.ScriptException
-import java.util.function.BiFunction
 
 /**
  * @author seckinger
  * @since 1/1/17
  */
-trait ExceptionHandlingRunner implements BiFunction<Execution, ScriptEngine, Object> {
+trait ExceptionHandlingRunner implements Runner {
     @Override
-    Object apply(Execution execution, ScriptEngine scriptEngine) {
+    Object run(Execution execution, ScriptEngine scriptEngine) {
         try {
-            super.apply(execution, scriptEngine)
+            super.run execution, scriptEngine
         } catch (ScriptException e) {
             e
         }

@@ -44,7 +44,7 @@ class ExecutorImplTest extends Specification {
         final res = exec.execute(execution)
 
         then:
-        1 * runner.apply(execution, correctEngine) >> 'asdf'
+        1 * runner.run(execution, correctEngine) >> 'asdf'
         res == 'asdf'
     }
 }

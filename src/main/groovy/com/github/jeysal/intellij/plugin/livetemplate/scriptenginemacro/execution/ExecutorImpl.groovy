@@ -2,6 +2,7 @@ package com.github.jeysal.intellij.plugin.livetemplate.scriptenginemacro.executi
 
 import com.github.jeysal.intellij.plugin.livetemplate.scriptenginemacro.execution.data.Execution
 import com.github.jeysal.intellij.plugin.livetemplate.scriptenginemacro.execution.runner.Runner
+import com.github.jeysal.intellij.plugin.livetemplate.scriptenginemacro.execution.runner.RunnerImpl
 
 import javax.script.ScriptEngineManager
 
@@ -11,7 +12,7 @@ import javax.script.ScriptEngineManager
  */
 class ExecutorImpl implements Executor {
     ScriptEngineManager manager = new ScriptEngineManager()
-    Runner runner = new Runner()
+    Runner runner = new RunnerImpl()
 
     @Override
     Object execute(Execution execution) {
@@ -25,6 +26,6 @@ class ExecutorImpl implements Executor {
             throw new RuntimeException("Failed to find ScriptEngine for language $lang")
 
         // run it
-        runner.apply(execution, engine)
+        runner.run(execution, engine)
     }
 }
