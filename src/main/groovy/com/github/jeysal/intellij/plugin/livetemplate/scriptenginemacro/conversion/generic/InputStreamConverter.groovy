@@ -1,6 +1,6 @@
 package com.github.jeysal.intellij.plugin.livetemplate.scriptenginemacro.conversion.generic
 
-import java.util.function.Function
+import com.github.jeysal.intellij.plugin.livetemplate.scriptenginemacro.conversion.Converter
 
 import static com.github.jeysal.java.util.function.SupplierUtils.trying
 
@@ -8,10 +8,10 @@ import static com.github.jeysal.java.util.function.SupplierUtils.trying
  * @author seckinger
  * @since 10/18/16
  */
-trait InputStreamConverter<R> implements Function<Object, R> {
-    R apply(final obj) {
+trait InputStreamConverter<R> implements Converter<Object, R> {
+    R convert(final obj) {
         obj instanceof InputStream ?
-                apply(trying(obj.&getText).get().orElse(null)) :
-                super.apply(obj)
+                convert(trying(obj.&getText).get().orElse(null)) :
+                super.convert(obj)
     }
 }

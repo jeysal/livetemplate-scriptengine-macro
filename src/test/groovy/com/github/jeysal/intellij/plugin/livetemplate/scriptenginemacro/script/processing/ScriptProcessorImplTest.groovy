@@ -14,14 +14,14 @@ import java.util.stream.Stream
  * @author seckinger
  * @since 10/24/16
  */
-class ScriptProcessorTest extends Specification {
+class ScriptProcessorImplTest extends Specification {
     private static final FILENAME_WITHOUT_EXT = 'test'
     private static final INVALID_FILENAME = '/*:\0\n\\'
     private static final SCRIPT_SOURCE = 'abc\nDeF\nXYZ'
 
     private static final List<ScriptEngineFactory> FACTORIES = new ScriptEngineManager().engineFactories
 
-    final proc = new ScriptProcessor()
+    final proc = new ScriptProcessorImpl()
 
     @Rule
     TemporaryFolder tmp = new TemporaryFolder()
@@ -34,7 +34,7 @@ class ScriptProcessorTest extends Specification {
         file.text = SCRIPT_SOURCE
 
         expect:
-        proc.apply(file.absolutePath) == new Script(factory.languageName, SCRIPT_SOURCE)
+        proc.process(file.absolutePath) == new Script(factory.languageName, SCRIPT_SOURCE)
 
         where:
         factory << FACTORIES.findAll { it.extensions }
@@ -46,7 +46,7 @@ class ScriptProcessorTest extends Specification {
         file.text = SCRIPT_SOURCE
 
         expect:
-        proc.apply(file.path) == new Script(factory.languageName, SCRIPT_SOURCE)
+        proc.process(file.path) == new Script(factory.languageName, SCRIPT_SOURCE)
 
         where:
         factory << FACTORIES.findAll { it.extensions }
@@ -58,7 +58,7 @@ class ScriptProcessorTest extends Specification {
         file.text = SCRIPT_SOURCE
 
         expect:
-        proc.apply(factory.mimeTypes[0] + ':' + file.absolutePath) == new Script(factory.languageName, SCRIPT_SOURCE)
+        proc.process(factory.mimeTypes[0] + ':' + file.absolutePath) == new Script(factory.languageName, SCRIPT_SOURCE)
 
         where:
         factory << FACTORIES.findAll { it.mimeTypes }
@@ -70,7 +70,7 @@ class ScriptProcessorTest extends Specification {
         file.text = SCRIPT_SOURCE
 
         expect:
-        proc.apply(factory.names[0] + ':' + file.absolutePath) == new Script(factory.languageName, SCRIPT_SOURCE)
+        proc.process(factory.names[0] + ':' + file.absolutePath) == new Script(factory.languageName, SCRIPT_SOURCE)
 
         where:
         factory << FACTORIES.findAll { it.names }
@@ -81,7 +81,7 @@ class ScriptProcessorTest extends Specification {
         final dir = tmp.newFolder()
 
         when:
-        proc.apply(dir.absolutePath)
+        proc.process(dir.absolutePath)
 
         then:
         thrown(RuntimeException)
@@ -92,7 +92,7 @@ class ScriptProcessorTest extends Specification {
         final dir = tmp.newFolder()
 
         when:
-        proc.apply(factory.names[0] + ':' + dir.absolutePath)
+        proc.process(factory.names[0] + ':' + dir.absolutePath)
 
         then:
         thrown(FileNotFoundException)
@@ -106,7 +106,7 @@ class ScriptProcessorTest extends Specification {
         final dir = tmp.newFolder(FILENAME_WITHOUT_EXT + '.' + factory.extensions[0])
 
         when:
-        proc.apply(dir.absolutePath)
+        proc.process(dir.absolutePath)
 
         then:
         thrown(FileNotFoundException)
@@ -120,7 +120,7 @@ class ScriptProcessorTest extends Specification {
         final file = new File(tmp.newFolder(), FILENAME_WITHOUT_EXT)
 
         when:
-        proc.apply(file.absolutePath)
+        proc.process(file.absolutePath)
 
         then:
         thrown(RuntimeException)
@@ -131,7 +131,7 @@ class ScriptProcessorTest extends Specification {
         final file = new File(tmp.newFolder(), FILENAME_WITHOUT_EXT + '.' + factory.extensions[0])
 
         when:
-        proc.apply(file.absolutePath)
+        proc.process(file.absolutePath)
 
         then:
         thrown(RuntimeException)
@@ -148,7 +148,7 @@ class ScriptProcessorTest extends Specification {
         final file = tmp.newFile(FILENAME_WITHOUT_EXT + '.' + ext)
 
         when:
-        proc.apply(file.absolutePath)
+        proc.process(file.absolutePath)
 
         then:
         thrown(RuntimeException)
@@ -163,7 +163,7 @@ class ScriptProcessorTest extends Specification {
         file.text = SCRIPT_SOURCE
 
         expect:
-        proc.apply(factory.names[0] + ':' + file.absolutePath) == new Script(factory.languageName, SCRIPT_SOURCE)
+        proc.process(factory.names[0] + ':' + file.absolutePath) == new Script(factory.languageName, SCRIPT_SOURCE)
 
         where:
         factory << FACTORIES.findAll { it.names }
@@ -174,7 +174,7 @@ class ScriptProcessorTest extends Specification {
         final file = new File(tmp.newFolder(), INVALID_FILENAME + '.' + factory.extensions[0])
 
         when:
-        proc.apply(file.absolutePath)
+        proc.process(file.absolutePath)
 
         then:
         thrown(RuntimeException)
@@ -185,7 +185,7 @@ class ScriptProcessorTest extends Specification {
 
     def 'reads source code prefixed with a name'() {
         expect:
-        proc.apply(factory.names[0] + ':' + SCRIPT_SOURCE) == new Script(factory.languageName, SCRIPT_SOURCE)
+        proc.process(factory.names[0] + ':' + SCRIPT_SOURCE) == new Script(factory.languageName, SCRIPT_SOURCE)
 
         where:
         factory << FACTORIES.findAll { it.names }
@@ -193,7 +193,7 @@ class ScriptProcessorTest extends Specification {
 
     def 'reads source code prefixed with a mime type'() {
         expect:
-        proc.apply(factory.mimeTypes[0] + ':' + SCRIPT_SOURCE) == new Script(factory.languageName, SCRIPT_SOURCE)
+        proc.process(factory.mimeTypes[0] + ':' + SCRIPT_SOURCE) == new Script(factory.languageName, SCRIPT_SOURCE)
 
         where:
         factory << FACTORIES.findAll { it.mimeTypes }
@@ -204,7 +204,7 @@ class ScriptProcessorTest extends Specification {
         def file = new File(tmp.newFolder(), FILENAME_WITHOUT_EXT)
 
         expect:
-        proc.apply(factory.names[0] + ':' + file.absolutePath) == new Script(factory.languageName, file.absolutePath)
+        proc.process(factory.names[0] + ':' + file.absolutePath) == new Script(factory.languageName, file.absolutePath)
 
         where:
         factory << FACTORIES.findAll { it.names }
@@ -212,7 +212,7 @@ class ScriptProcessorTest extends Specification {
 
     def 'throws when passed source code without prefix'() {
         when:
-        proc.apply(SCRIPT_SOURCE)
+        proc.process(SCRIPT_SOURCE)
 
         then:
         thrown(RuntimeException)
@@ -220,7 +220,7 @@ class ScriptProcessorTest extends Specification {
 
     def 'throws when passed any Object'() {
         when:
-        proc.apply(new Object())
+        proc.process(new Object())
 
         then:
         thrown(RuntimeException)

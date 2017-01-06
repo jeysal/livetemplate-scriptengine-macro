@@ -3,7 +3,7 @@ package com.github.jeysal.intellij.plugin.livetemplate.scriptenginemacro.executi
  * @author seckinger
  * @since 1/1/17
  */
-class Runner extends SimpleRunner implements
+class RunnerImpl extends SimpleRunner implements
         ContextBindingRunner,
         OutputInterceptingRunner,
         ExceptionHandlingRunner {

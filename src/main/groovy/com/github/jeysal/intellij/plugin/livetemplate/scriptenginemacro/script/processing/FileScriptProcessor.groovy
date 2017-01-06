@@ -4,17 +4,17 @@ import com.github.jeysal.intellij.plugin.livetemplate.scriptenginemacro.executio
 import org.apache.commons.io.FilenameUtils
 
 import javax.script.ScriptEngineManager
-import java.util.function.BiFunction
 
 /**
  * @author seckinger
  * @since 10/24/16
  */
-trait FileScriptProcessor implements BiFunction<Object, String, Script> {
+trait FileScriptProcessor implements ScriptProcessor {
     private static final BASE_DIRS = [null, '', System.getProperty('user.home')]
     private final manager = new ScriptEngineManager()
 
-    Script apply(final obj, final String lang) {
+    @Override
+    Script process(final obj, final String lang) {
         if (obj instanceof CharSequence) {
             final param = obj.toString()
             final file = BASE_DIRS.collect { new File(it as String, param) }.find { it.exists() }
@@ -27,6 +27,6 @@ trait FileScriptProcessor implements BiFunction<Object, String, Script> {
                     return new Script(newLang, file.text)
             }
         }
-        super.apply(obj, lang)
+        super.process(obj, lang)
     }
 }

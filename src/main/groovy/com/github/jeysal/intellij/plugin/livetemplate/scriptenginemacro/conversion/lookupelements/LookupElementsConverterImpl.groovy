@@ -6,7 +6,7 @@ import com.github.jeysal.intellij.plugin.livetemplate.scriptenginemacro.conversi
  * @author seckinger
  * @since 10/18/16
  */
-class LookupElementsConverter extends DefaultLookupElementsConverter implements
+class LookupElementsConverterImpl extends DefaultLookupElementsConverter implements
         ArrayConverter,
         BaseStreamConverter,
         InputStreamConverter,

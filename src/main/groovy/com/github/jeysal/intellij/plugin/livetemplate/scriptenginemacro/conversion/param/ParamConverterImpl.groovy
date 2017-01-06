@@ -4,7 +4,7 @@ package com.github.jeysal.intellij.plugin.livetemplate.scriptenginemacro.convers
  * @author seckinger
  * @since 10/24/16
  */
-class ParamConverter extends DefaultParamConverter implements
+class ParamConverterImpl extends DefaultParamConverter implements
         InvokeActionResultParamConverter,
         ListResultParamConverter,
         TextResultParamConverter {

@@ -2,20 +2,20 @@ package com.github.jeysal.intellij.plugin.livetemplate.scriptenginemacro.executi
 
 import com.github.jeysal.intellij.plugin.livetemplate.scriptenginemacro.execution.data.Execution
 import com.github.jeysal.intellij.plugin.livetemplate.scriptenginemacro.execution.runner.Runner
+import com.github.jeysal.intellij.plugin.livetemplate.scriptenginemacro.execution.runner.RunnerImpl
 
 import javax.script.ScriptEngineManager
-import java.util.function.Function
 
 /**
  * @author seckinger
  * @since 11/22/16
  */
-class Executor implements Function<Execution, Object> {
+class ExecutorImpl implements Executor {
     ScriptEngineManager manager = new ScriptEngineManager()
-    Runner runner = new Runner()
+    Runner runner = new RunnerImpl()
 
     @Override
-    Object apply(Execution execution) {
+    Object execute(Execution execution) {
         // find engine
         final lang = execution.script.language
         final engine = manager.engineFactories.find {
@@ -26,6 +26,6 @@ class Executor implements Function<Execution, Object> {
             throw new RuntimeException("Failed to find ScriptEngine for language $lang")
 
         // run it
-        runner.apply(execution, engine)
+        runner.run(execution, engine)
     }
 }

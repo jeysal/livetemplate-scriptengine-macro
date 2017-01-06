@@ -15,8 +15,8 @@ import javax.script.ScriptException
  * @author seckinger
  * @since 1/2/17
  */
-class RunnerTest extends Specification {
-    Runner runner = new Runner()
+class RunnerImplTest extends Specification {
+    RunnerImpl runner = new RunnerImpl()
 
     ScriptEngine engine = Mock()
     ScriptContext context = Mock()
@@ -27,7 +27,7 @@ class RunnerTest extends Specification {
 
     def 'returns the script result'() {
         when:
-        final res = runner.apply(
+        final res = runner.run(
                 new Execution(new Script('lang', 'src'), new Context([], Goal.RESULT, Mock(Editor))),
                 engine
         )
@@ -42,7 +42,7 @@ class RunnerTest extends Specification {
         final ex = new ScriptException('')
 
         when:
-        final res = runner.apply(
+        final res = runner.run(
                 new Execution(new Script('lang', 'src'), new Context([], Goal.RESULT, Mock(Editor))),
                 engine
         )
@@ -57,7 +57,7 @@ class RunnerTest extends Specification {
         Editor editor = Mock()
 
         when:
-        runner.apply(
+        runner.run(
                 new Execution(new Script('lang', 'src'), new Context(['arg0'], Goal.RESULT, editor)),
                 engine
         )
@@ -73,7 +73,7 @@ class RunnerTest extends Specification {
         Writer writer
 
         when:
-        runner.apply(
+        runner.run(
                 new Execution(new Script('lang', 'src'), new Context([], Goal.RESULT, Mock(Editor))),
                 engine
         )

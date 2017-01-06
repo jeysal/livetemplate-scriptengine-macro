@@ -3,19 +3,19 @@ package com.github.jeysal.intellij.plugin.livetemplate.scriptenginemacro.executi
 import com.github.jeysal.intellij.plugin.livetemplate.scriptenginemacro.execution.data.Execution
 
 import javax.script.ScriptEngine
-import java.util.function.BiFunction
 
 /**
  * @author seckinger
  * @since 1/1/17
  */
-trait OutputInterceptingRunner implements BiFunction<Execution, ScriptEngine, Object> {
+trait OutputInterceptingRunner implements Runner {
     @Override
-    Object apply(Execution execution, ScriptEngine scriptEngine) {
+    Object run(Execution execution, ScriptEngine scriptEngine) {
         final out = new StringWriter()
 
         scriptEngine.context.writer = out
         scriptEngine.put '_out', out
-        super.apply(execution, scriptEngine)
+
+        super.run execution, scriptEngine
     }
 }

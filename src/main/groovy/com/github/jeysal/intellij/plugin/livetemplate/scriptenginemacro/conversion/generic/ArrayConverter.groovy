@@ -1,6 +1,6 @@
 package com.github.jeysal.intellij.plugin.livetemplate.scriptenginemacro.conversion.generic
 
-import java.util.function.Function
+import com.github.jeysal.intellij.plugin.livetemplate.scriptenginemacro.conversion.Converter
 
 import static java.util.Arrays.asList
 
@@ -8,10 +8,10 @@ import static java.util.Arrays.asList
  * @author seckinger
  * @since 10/17/16
  */
-trait ArrayConverter<R> implements Function<Object, R> {
-    R apply(final obj) {
+trait ArrayConverter<R> implements Converter<Object, R> {
+    R convert(final obj) {
         obj?.class?.array ?
-                apply(asList(obj as Object[])) :
-                super.apply(obj)
+                convert(asList(obj as Object[])) :
+                super.convert(obj)
     }
 }

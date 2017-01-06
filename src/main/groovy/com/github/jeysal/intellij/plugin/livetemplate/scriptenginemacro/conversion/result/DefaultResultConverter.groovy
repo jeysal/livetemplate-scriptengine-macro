@@ -3,15 +3,13 @@ package com.github.jeysal.intellij.plugin.livetemplate.scriptenginemacro.convers
 import com.intellij.codeInsight.template.Result
 import com.intellij.codeInsight.template.TextResult
 
-import java.util.function.Function
-
 /**
  * @author seckinger
  * @since 10/17/16
  */
-class DefaultResultConverter implements Function<Object, Result> {
+class DefaultResultConverter implements ResultConverter {
     @Override
-    Result apply(final obj) {
+    Result convert(final obj) {
         new TextResult(Objects.toString(obj))
     }
 }
