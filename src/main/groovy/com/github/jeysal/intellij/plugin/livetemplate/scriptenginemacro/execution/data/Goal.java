@@ -1,7 +1,7 @@
-package com.github.jeysal.intellij.plugin.livetemplate.scriptenginemacro.execution.data
+package com.github.jeysal.intellij.plugin.livetemplate.scriptenginemacro.execution.data;
 
-import com.intellij.codeInsight.lookup.LookupElement
-import com.intellij.codeInsight.template.Result
+import com.intellij.codeInsight.lookup.LookupElement;
+import com.intellij.codeInsight.template.Result;
 
 /**
  * Describes the goal of a script execution.
@@ -16,6 +16,6 @@ import com.intellij.codeInsight.template.Result
  * @author seckinger
  * @since 10/24/16
  */
-enum Goal {
+public enum Goal {
     RESULT, LOOKUP_ELEMENTS
 }

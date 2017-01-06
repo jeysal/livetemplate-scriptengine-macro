@@ -1,6 +1,7 @@
-package com.github.jeysal.intellij.plugin.livetemplate.scriptenginemacro.execution.data
+package com.github.jeysal.intellij.plugin.livetemplate.scriptenginemacro.execution.data;
 
-import groovy.transform.Immutable
+import lombok.Value;
+import lombok.experimental.Wither;
 
 /**
  * Holds the static information drawn from the first macro parameter that can be used to execute a script,
@@ -9,8 +10,9 @@ import groovy.transform.Immutable
  * @author seckinger
  * @since 10/24/16
  */
-@Immutable
-class Script {
-    String language
-    String source
+@Value
+@Wither
+public class Script {
+    String language;
+    String source;
 }
