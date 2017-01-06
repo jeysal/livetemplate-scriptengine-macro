@@ -9,6 +9,7 @@ import com.github.jeysal.intellij.plugin.livetemplate.scriptenginemacro.executio
 import com.github.jeysal.intellij.plugin.livetemplate.scriptenginemacro.execution.data.Execution
 import com.github.jeysal.intellij.plugin.livetemplate.scriptenginemacro.execution.data.Goal
 import com.github.jeysal.intellij.plugin.livetemplate.scriptenginemacro.script.processing.ScriptProcessor
+import com.github.jeysal.intellij.plugin.livetemplate.scriptenginemacro.script.processing.ScriptProcessorImpl
 import com.intellij.codeInsight.lookup.LookupElement
 import com.intellij.codeInsight.template.Expression
 import com.intellij.codeInsight.template.ExpressionContext
@@ -28,7 +29,7 @@ class ScriptEngineMacro extends Macro {
     private static final SCRIPT_PARAM_FORMAT = '"path or language:code"'
     private static final PRESENTABLE_NAME = "$NAME($SCRIPT_PARAM_FORMAT, args...)"
 
-    private final ScriptProcessor processor = new ScriptProcessor()
+    private final ScriptProcessor processor = new ScriptProcessorImpl()
     private final ParamConverter paramConv = new ParamConverter()
 
     private final Executor executor = new ExecutorImpl()
@@ -64,7 +65,7 @@ class ScriptEngineMacro extends Macro {
             return 'too few arguments'
 
         try {
-            script = processor.apply(paramConv.apply(params[0].calculateResult(context)))
+            script = processor.process(paramConv.apply(params[0].calculateResult(context)))
         } catch (RuntimeException e) {
             return e.message
         }
