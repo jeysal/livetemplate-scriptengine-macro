@@ -16,8 +16,8 @@ import javax.script.ScriptEngineManager
  * @author seckinger
  * @since 11/29/16
  */
-class ExecutorTest extends Specification {
-    Executor exec = new Executor()
+class ExecutorImplTest extends Specification {
+    ExecutorImpl exec = new ExecutorImpl()
     ScriptEngineManager manager = Mock()
     Runner runner = Mock()
 
@@ -41,7 +41,7 @@ class ExecutorTest extends Specification {
         final execution = new Execution(new Script('lang', 'src'), new Context([], Goal.RESULT, Mock(Editor)))
 
         when:
-        final res = exec.apply(execution)
+        final res = exec.execute(execution)
 
         then:
         1 * runner.apply(execution, correctEngine) >> 'asdf'

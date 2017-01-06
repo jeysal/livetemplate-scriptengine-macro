@@ -4,6 +4,7 @@ import com.github.jeysal.intellij.plugin.livetemplate.scriptenginemacro.conversi
 import com.github.jeysal.intellij.plugin.livetemplate.scriptenginemacro.conversion.param.ParamConverter
 import com.github.jeysal.intellij.plugin.livetemplate.scriptenginemacro.conversion.result.ResultConverter
 import com.github.jeysal.intellij.plugin.livetemplate.scriptenginemacro.execution.Executor
+import com.github.jeysal.intellij.plugin.livetemplate.scriptenginemacro.execution.ExecutorImpl
 import com.github.jeysal.intellij.plugin.livetemplate.scriptenginemacro.execution.data.Context
 import com.github.jeysal.intellij.plugin.livetemplate.scriptenginemacro.execution.data.Execution
 import com.github.jeysal.intellij.plugin.livetemplate.scriptenginemacro.execution.data.Goal
@@ -30,7 +31,7 @@ class ScriptEngineMacro extends Macro {
     private final ScriptProcessor processor = new ScriptProcessor()
     private final ParamConverter paramConv = new ParamConverter()
 
-    private final Executor executor = new Executor()
+    private final Executor executor = new ExecutorImpl()
 
     private final ResultConverter resConv = new ResultConverter()
     private final LookupElementsConverter lookupElemConv = new LookupElementsConverter()
@@ -72,6 +73,6 @@ class ScriptEngineMacro extends Macro {
         final args = params.tail().collect { it.calculateResult(context) }.collect paramConv.&apply
         Execution exec = new Execution(script, new Context(args, goal, context.editor))
 
-        executor.apply exec
+        executor.execute exec
     }
 }
