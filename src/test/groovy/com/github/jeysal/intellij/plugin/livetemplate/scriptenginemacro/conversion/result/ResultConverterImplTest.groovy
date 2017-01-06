@@ -10,12 +10,12 @@ import java.util.stream.Stream
  * @author seckinger
  * @since 10/17/16
  */
-class ResultConverterTest extends Specification {
-    final conv = new ResultConverter()
+class ResultConverterImplTest extends Specification {
+    final conv = new ResultConverterImpl()
 
     def 'toStrings the first element of a Collection-ish or null if empty into a TextResult'() {
         expect:
-        (conv.apply(collection) as TextResult).text == res
+        (conv.convert(collection) as TextResult).text == res
 
         where:
         collection << [
@@ -32,22 +32,22 @@ class ResultConverterTest extends Specification {
 
     def 'unwraps an Optional'() {
         expect:
-        (conv.apply(Optional.of('asdf')) as TextResult).text == 'asdf'
+        (conv.convert(Optional.of('asdf')) as TextResult).text == 'asdf'
     }
 
     def 'fully reads a Reader into a TextResult'() {
         expect:
-        (conv.apply(new StringReader('asdf')) as TextResult).text == 'asdf'
+        (conv.convert(new StringReader('asdf')) as TextResult).text == 'asdf'
     }
 
     def 'fully reads an InputStream into a TextResult'() {
         expect:
-        (conv.apply(new ByteArrayInputStream('asdf'.bytes)) as TextResult).text == 'asdf'
+        (conv.convert(new ByteArrayInputStream('asdf'.bytes)) as TextResult).text == 'asdf'
     }
 
     def 'gets an element from a Supplier'() {
         expect:
-        (conv.apply({ 'asdf' } as Supplier) as TextResult).text == 'asdf'
+        (conv.convert({ 'asdf' } as Supplier) as TextResult).text == 'asdf'
     }
 
     def 'does not convert a Result'() {
@@ -55,13 +55,13 @@ class ResultConverterTest extends Specification {
         final res = new TextResult('asdf')
 
         expect:
-        conv.apply(res) == res
+        conv.convert(res) == res
     }
 
     def 'toStrings any object into a TextResult'() {
         given:
         final obj = new Object()
-        final res = conv.apply(obj) as TextResult
+        final res = conv.convert(obj) as TextResult
 
         expect:
         res.text == obj.toString()
@@ -69,6 +69,6 @@ class ResultConverterTest extends Specification {
 
     def 'toStrings null into a TextResult'() {
         expect:
-        (conv.apply(null) as TextResult).text == 'null'
+        (conv.convert(null) as TextResult).text == 'null'
     }
 }

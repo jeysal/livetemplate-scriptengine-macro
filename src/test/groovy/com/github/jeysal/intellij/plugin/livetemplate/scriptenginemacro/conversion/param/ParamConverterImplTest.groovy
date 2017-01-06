@@ -10,8 +10,8 @@ import spock.lang.Specification
  * @author seckinger
  * @since 10/24/16
  */
-class ParamConverterTest extends Specification {
-    final conv = new ParamConverter()
+class ParamConverterImplTest extends Specification {
+    final conv = new ParamConverterImpl()
 
     def 'converts each element of a ListResult into a List'() {
         given:
@@ -19,7 +19,7 @@ class ParamConverterTest extends Specification {
         final res = Mock(Result)
 
         expect:
-        conv.apply(new ListResult([
+        conv.convert(new ListResult([
                 new TextResult('asdf'),
                 new InvokeActionResult(noop),
                 res
@@ -28,12 +28,12 @@ class ParamConverterTest extends Specification {
 
     def 'converts an empty ListResult to an empty List'() {
         expect:
-        conv.apply(new ListResult([])) == []
+        conv.convert(new ListResult([])) == []
     }
 
     def 'unwraps a TextResult'() {
         expect:
-        conv.apply(new TextResult('asdf')) == 'asdf'
+        conv.convert(new TextResult('asdf')) == 'asdf'
     }
 
     def 'unwraps an InvokeActionsResult'() {
@@ -41,7 +41,7 @@ class ParamConverterTest extends Specification {
         final Runnable noop = { -> }
 
         expect:
-        conv.apply(new InvokeActionResult(noop)) == noop
+        conv.convert(new InvokeActionResult(noop)) == noop
     }
 
     def 'toStrings any Result'() {
@@ -49,11 +49,11 @@ class ParamConverterTest extends Specification {
         final res = Mock(Result)
 
         expect:
-        conv.apply(res) == res.toString()
+        conv.convert(res) == res.toString()
     }
 
     def 'toStrings null'() {
         expect:
-        conv.apply(null) == 'null'
+        conv.convert(null) == 'null'
     }
 }

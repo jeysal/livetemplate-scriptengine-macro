@@ -2,17 +2,15 @@ package com.github.jeysal.intellij.plugin.livetemplate.scriptenginemacro.convers
 
 import com.intellij.codeInsight.lookup.LookupElement
 
-import java.util.function.Function
-
 /**
  * @author seckinger
  * @since 10/22/16
  */
-trait SingleLookupElementConverter implements Function<Object, LookupElement[]> {
+trait SingleLookupElementConverter implements LookupElementsConverter {
     @Override
-    LookupElement[] apply(final obj) {
+    LookupElement[] convert(final obj) {
         obj instanceof LookupElement ?
                 [obj] as LookupElement[] :
-                super.apply(obj)
+                super.convert(obj)
     }
 }

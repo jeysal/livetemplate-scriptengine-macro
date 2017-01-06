@@ -1,15 +1,15 @@
 package com.github.jeysal.intellij.plugin.livetemplate.scriptenginemacro.conversion.generic
 
-import java.util.function.Function
+import com.github.jeysal.intellij.plugin.livetemplate.scriptenginemacro.conversion.Converter
 
 /**
  * @author seckinger
  * @since 10/17/16
  */
-trait MapConverter<R> implements Function<Object, R> {
-    R apply(final obj) {
+trait MapConverter<R> implements Converter<Object, R> {
+    R convert(final obj) {
         obj instanceof Map ?
-                apply(obj.values().spliterator()) :
-                super.apply(obj)
+                convert(obj.values().spliterator()) :
+                super.convert(obj)
     }
 }

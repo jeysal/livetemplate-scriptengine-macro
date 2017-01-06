@@ -1,8 +1,11 @@
 package com.github.jeysal.intellij.plugin.livetemplate.scriptenginemacro
 
 import com.github.jeysal.intellij.plugin.livetemplate.scriptenginemacro.conversion.lookupelements.LookupElementsConverter
+import com.github.jeysal.intellij.plugin.livetemplate.scriptenginemacro.conversion.lookupelements.LookupElementsConverterImpl
 import com.github.jeysal.intellij.plugin.livetemplate.scriptenginemacro.conversion.param.ParamConverter
+import com.github.jeysal.intellij.plugin.livetemplate.scriptenginemacro.conversion.param.ParamConverterImpl
 import com.github.jeysal.intellij.plugin.livetemplate.scriptenginemacro.conversion.result.ResultConverter
+import com.github.jeysal.intellij.plugin.livetemplate.scriptenginemacro.conversion.result.ResultConverterImpl
 import com.github.jeysal.intellij.plugin.livetemplate.scriptenginemacro.execution.Executor
 import com.github.jeysal.intellij.plugin.livetemplate.scriptenginemacro.execution.ExecutorImpl
 import com.github.jeysal.intellij.plugin.livetemplate.scriptenginemacro.execution.data.Context
@@ -30,12 +33,12 @@ class ScriptEngineMacro extends Macro {
     private static final PRESENTABLE_NAME = "$NAME($SCRIPT_PARAM_FORMAT, args...)"
 
     private final ScriptProcessor processor = new ScriptProcessorImpl()
-    private final ParamConverter paramConv = new ParamConverter()
+    private final ParamConverter paramConv = new ParamConverterImpl()
 
     private final Executor executor = new ExecutorImpl()
 
-    private final ResultConverter resConv = new ResultConverter()
-    private final LookupElementsConverter lookupElemConv = new LookupElementsConverter()
+    private final ResultConverter resConv = new ResultConverterImpl()
+    private final LookupElementsConverter lookupElemConv = new LookupElementsConverterImpl()
 
     @Override
     String getName() {
@@ -49,12 +52,12 @@ class ScriptEngineMacro extends Macro {
 
     @Override
     Result calculateResult(@NotNull final Expression[] params, final ExpressionContext context) {
-        resConv.apply(calculate(params as List, context, Goal.RESULT))
+        resConv.convert(calculate(params as List, context, Goal.RESULT))
     }
 
     @Override
     LookupElement[] calculateLookupItems(@NotNull final Expression[] params, final ExpressionContext context) {
-        lookupElemConv.apply(calculate(params as List, context, Goal.LOOKUP_ELEMENTS))
+        lookupElemConv.convert(calculate(params as List, context, Goal.LOOKUP_ELEMENTS))
     }
 
     private Object calculate(@NotNull final List<Expression> params, final ExpressionContext context, final Goal goal) {
@@ -65,13 +68,13 @@ class ScriptEngineMacro extends Macro {
             return 'too few arguments'
 
         try {
-            script = processor.process(paramConv.apply(params[0].calculateResult(context)))
+            script = processor.process(paramConv.convert(params[0].calculateResult(context)))
         } catch (RuntimeException e) {
             return e.message
         }
 
         // exec
-        final args = params.tail().collect { it.calculateResult(context) }.collect paramConv.&apply
+        final args = params.tail().collect { it.calculateResult(context) }.collect paramConv.&convert
         Execution exec = new Execution(script, new Context(args, goal, context.editor))
 
         executor.execute exec

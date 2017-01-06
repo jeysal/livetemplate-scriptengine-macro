@@ -11,12 +11,12 @@ import java.util.stream.Stream
  * @author seckinger
  * @since 10/18/16
  */
-class LookupElementsConverterTest extends Specification {
-    final conv = new LookupElementsConverter()
+class LookupElementsConverterImplTest extends Specification {
+    final conv = new LookupElementsConverterImpl()
 
     def 'wraps each element of a Collection-ish in a LookupElement'() {
         expect:
-        conv.apply(collection).collect { it.object } == res
+        conv.convert(collection).collect { it.object } == res
 
         where:
         collection << [
@@ -33,27 +33,27 @@ class LookupElementsConverterTest extends Specification {
 
     def 'unwraps an Optional'() {
         expect:
-        conv.apply(Optional.of('asdf')).collect { it.object } == ['asdf']
+        conv.convert(Optional.of('asdf')).collect { it.object } == ['asdf']
     }
 
     def 'flattens a Collection before wrapping the elements'() {
         expect:
-        conv.apply([[1, 2], 3]).collect { it.object } == [1, 2, 3]
+        conv.convert([[1, 2], 3]).collect { it.object } == [1, 2, 3]
     }
 
     def 'fully reads a Reader into a LookupElement'() {
         expect:
-        conv.apply(new StringReader('asdf')).collect { it.object } == ['asdf']
+        conv.convert(new StringReader('asdf')).collect { it.object } == ['asdf']
     }
 
     def 'fully reads an InputStream into a LookupElement'() {
         expect:
-        conv.apply(new ByteArrayInputStream('asdf'.bytes)).collect { it.object } == ['asdf']
+        conv.convert(new ByteArrayInputStream('asdf'.bytes)).collect { it.object } == ['asdf']
     }
 
     def 'gets an element from a Supplier'() {
         expect:
-        conv.apply({ 'asdf' } as Supplier).collect { it.object } == ['asdf']
+        conv.convert({ 'asdf' } as Supplier).collect { it.object } == ['asdf']
     }
 
     def 'wraps a LookupElement in an array'() {
@@ -61,7 +61,7 @@ class LookupElementsConverterTest extends Specification {
         final elem = LookupElementBuilder.create('asdf')
 
         expect:
-        conv.apply(elem) == [elem] as LookupElement[]
+        conv.convert(elem) == [elem] as LookupElement[]
     }
 
     def 'does not convert a LookupElement array'() {
@@ -69,13 +69,13 @@ class LookupElementsConverterTest extends Specification {
         final elems = [LookupElementBuilder.create('asdf')] as LookupElement[]
 
         expect:
-        conv.apply(elems) == elems
+        conv.convert(elems) == elems
     }
 
     def 'wraps any object into a LookupElement'() {
         given:
         final obj = new Object()
-        final res = conv.apply(obj)
+        final res = conv.convert(obj)
 
         expect:
         res.collect { it.object } == [obj]
@@ -83,6 +83,6 @@ class LookupElementsConverterTest extends Specification {
 
     def 'converts null to an empty LookupElement array'() {
         expect:
-        conv.apply(null) as List == []
+        conv.convert(null) as List == []
     }
 }
