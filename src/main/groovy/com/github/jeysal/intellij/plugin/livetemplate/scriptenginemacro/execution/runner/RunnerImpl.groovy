@@ -6,5 +6,6 @@ package com.github.jeysal.intellij.plugin.livetemplate.scriptenginemacro.executi
 class RunnerImpl extends SimpleRunner implements
         ContextBindingRunner,
         OutputInterceptingRunner,
-        ExceptionHandlingRunner {
+        ExceptionHandlingRunner,
+        CacheProvidingRunner {
 }
