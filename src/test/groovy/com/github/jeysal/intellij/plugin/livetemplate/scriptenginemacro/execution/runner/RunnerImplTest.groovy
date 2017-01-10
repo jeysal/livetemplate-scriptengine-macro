@@ -4,6 +4,7 @@ import com.github.jeysal.intellij.plugin.livetemplate.scriptenginemacro.executio
 import com.github.jeysal.intellij.plugin.livetemplate.scriptenginemacro.execution.data.Execution
 import com.github.jeysal.intellij.plugin.livetemplate.scriptenginemacro.execution.data.Goal
 import com.github.jeysal.intellij.plugin.livetemplate.scriptenginemacro.execution.data.Script
+import com.github.jeysal.intellij.plugin.livetemplate.scriptenginemacro.execution.runner.cache.CacheAccessor
 import com.intellij.openapi.editor.Editor
 import spock.lang.Specification
 
@@ -81,5 +82,16 @@ class RunnerImplTest extends Specification {
         then:
         1 * context.setWriter({ writer = it })
         1 * engine.put('_out', { it == writer })
+    }
+
+    def 'sets the cache accessor'() {
+        when:
+        runner.run(
+                new Execution(new Script('lang', 'src'), new Context([], Goal.RESULT, Mock(Editor))),
+                engine
+        )
+
+        then:
+        1 * engine.put('_cache', _ as CacheAccessor)
     }
 }
