@@ -1,5 +1,14 @@
 # Changelog
 
+## 1.2.0
+
+### Features
+
+#### Caching
+
+* add `_cache` storage
+* add cache auto-loading
+
 ## 1.1.0
 
 ### Features
