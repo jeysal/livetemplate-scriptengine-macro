@@ -8,6 +8,9 @@ An IntelliJ IDEA plugin for enhanced live template scripting support
 
 Enables you to insert text, offer completion options or perform editor actions using your own scripts when inserting a live template.
 
+Unlike IntelliJ's native `groovyScript` macro, this plugins allows for much more flexibility in what you can return from your script,
+is able to read your script from a file, and offers ECMAScript / JavaScript as an alternative language instead of binding you to Groovy. 
+
 ## Installation
 
 You can install the plugin from the [JetBrains IntelliJ IDEA Plugin Repository](https://plugins.jetbrains.com/idea/plugin/9365-livetemplate-scriptengine-macro).
