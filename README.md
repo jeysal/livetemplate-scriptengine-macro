@@ -10,7 +10,8 @@ Enables you to insert text, offer completion options or perform editor actions u
 
 ## Installation
 
-Once released, you will be able to install the plugin from the [JetBrains IntelliJ IDEA Plugin Repository](https://plugins.jetbrains.com/).
+You can install the plugin from the [JetBrains IntelliJ IDEA Plugin Repository](https://plugins.jetbrains.com/idea/plugin/9365-livetemplate-scriptengine-macro).
+In your IDE's plugin repository browser, you will find it named `LiveTemplate ScriptEngine Macro`.
 
 ## Usage
 
