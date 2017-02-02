@@ -24,4 +24,6 @@
         <liveTemplateMacro
                 implementation="com.github.jeysal.intellij.plugin.livetemplate.scriptenginemacro.ScriptEngineMacro"/>
     </extensions>
+
+    <depends>com.intellij.modules.platform</depends>
 </idea-plugin>
