@@ -21,7 +21,7 @@ dependencies {
     compile 'commons-io:commons-io:2.5'
     compile 'com.google.guava:guava:21.0'
     compile 'com.github.jeysal:java-utils:1.2.0'
-    compile 'org.projectlombok:lombok:1.16.12'
+    compile 'org.projectlombok:lombok:1.16.14'
 
     // Test
     testCompile('org.spockframework:spock-core:1.0-groovy-2.4') {
