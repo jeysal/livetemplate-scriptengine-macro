@@ -8,6 +8,7 @@ import com.intellij.codeInsight.template.TextResult
  * @since 10/24/16
  */
 trait TextResultParamConverter implements ParamConverter {
+    @Override
     Object convert(final Result res) {
         res instanceof TextResult ?
                 res.text :

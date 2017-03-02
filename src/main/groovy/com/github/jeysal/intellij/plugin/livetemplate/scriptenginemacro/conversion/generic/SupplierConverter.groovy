@@ -9,6 +9,7 @@ import java.util.function.Supplier
  * @since 10/17/16
  */
 trait SupplierConverter<R> implements Converter<Supplier, R> {
+    @Override
     R convert(final Supplier supplier) {
         convert(supplier.get())
     }

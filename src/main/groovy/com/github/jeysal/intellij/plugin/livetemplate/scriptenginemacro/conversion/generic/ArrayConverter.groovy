@@ -9,6 +9,7 @@ import static java.util.Arrays.asList
  * @since 10/17/16
  */
 trait ArrayConverter<R> implements Converter<Object, R> {
+    @Override
     R convert(final obj) {
         obj?.class?.array ?
                 convert(asList(obj as Object[])) :

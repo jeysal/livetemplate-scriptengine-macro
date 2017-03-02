@@ -9,6 +9,7 @@ import java.util.stream.BaseStream
  * @since 10/17/16
  */
 trait BaseStreamConverter<R> implements Converter<BaseStream, R> {
+    @Override
     R convert(final BaseStream stream) {
         convert(stream.spliterator())
     }

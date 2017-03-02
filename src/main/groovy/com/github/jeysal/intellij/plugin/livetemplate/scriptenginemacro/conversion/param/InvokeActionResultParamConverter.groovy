@@ -8,6 +8,7 @@ import com.intellij.codeInsight.template.Result
  * @since 10/24/16
  */
 trait InvokeActionResultParamConverter implements ParamConverter {
+    @Override
     Object convert(final Result res) {
         res instanceof InvokeActionResult ?
                 res.action :

@@ -10,6 +10,7 @@ import java.util.stream.StreamSupport
  * @since 10/22/16
  */
 trait SpliteratorLookupElementsConverter implements LookupElementsConverter<Spliterator> {
+    @Override
     LookupElement[] convert(final Spliterator spliterator) {
         StreamSupport.stream(spliterator, false).map(this.&convert).collect(Collectors.toList()).flatten() as LookupElement[]
     }

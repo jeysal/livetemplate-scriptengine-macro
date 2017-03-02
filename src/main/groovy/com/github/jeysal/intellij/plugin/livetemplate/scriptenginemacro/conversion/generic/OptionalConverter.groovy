@@ -7,6 +7,7 @@ import com.github.jeysal.intellij.plugin.livetemplate.scriptenginemacro.conversi
  * @since 10/17/16
  */
 trait OptionalConverter<R> implements Converter<Optional, R> {
+    @Override
     R convert(final Optional optional) {
         convert(optional.orElse('empty'))
     }
