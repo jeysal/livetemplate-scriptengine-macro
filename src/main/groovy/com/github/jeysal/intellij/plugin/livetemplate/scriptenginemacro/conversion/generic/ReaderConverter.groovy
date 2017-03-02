@@ -8,10 +8,8 @@ import static com.github.jeysal.java.util.function.SupplierUtils.trying
  * @author seckinger
  * @since 10/18/16
  */
-trait ReaderConverter<R> implements Converter<Object, R> {
-    R convert(final obj) {
-        obj instanceof Reader ?
-                convert(trying(obj.&getText).get().orElse(null)) :
-                super.convert(obj)
+trait ReaderConverter<R> implements Converter<Reader, R> {
+    R convert(final Reader reader) {
+        convert(trying(reader.&getText).get().orElse(null))
     }
 }

@@ -6,10 +6,8 @@ import com.github.jeysal.intellij.plugin.livetemplate.scriptenginemacro.conversi
  * @author seckinger
  * @since 10/17/16
  */
-trait MapConverter<R> implements Converter<Object, R> {
-    R convert(final obj) {
-        obj instanceof Map ?
-                convert(obj.values().spliterator()) :
-                super.convert(obj)
+trait MapConverter<R> implements Converter<Map, R> {
+    R convert(final Map map) {
+        convert(map.values().spliterator())
     }
 }

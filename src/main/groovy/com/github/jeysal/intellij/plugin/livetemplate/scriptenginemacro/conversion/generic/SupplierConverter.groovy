@@ -8,10 +8,8 @@ import java.util.function.Supplier
  * @author seckinger
  * @since 10/17/16
  */
-trait SupplierConverter<R> implements Converter<Object, R> {
-    R convert(final obj) {
-        obj instanceof Supplier ?
-                convert(obj.get()) :
-                super.convert(obj)
+trait SupplierConverter<R> implements Converter<Supplier, R> {
+    R convert(final Supplier supplier) {
+        convert(supplier.get())
     }
 }

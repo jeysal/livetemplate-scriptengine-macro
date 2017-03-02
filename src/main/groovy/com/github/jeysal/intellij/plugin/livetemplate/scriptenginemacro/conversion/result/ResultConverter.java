@@ -8,5 +8,5 @@ import com.intellij.codeInsight.template.Result;
  * @since 1/6/17
  */
 @FunctionalInterface
-public interface ResultConverter extends Converter<Object, Result> {
+public interface ResultConverter<T> extends Converter<T, Result> {
 }

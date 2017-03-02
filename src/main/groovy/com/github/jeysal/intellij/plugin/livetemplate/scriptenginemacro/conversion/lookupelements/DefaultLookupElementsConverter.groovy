@@ -7,7 +7,7 @@ import com.intellij.codeInsight.lookup.LookupElementBuilder
  * @author seckinger
  * @since 10/18/16
  */
-class DefaultLookupElementsConverter implements LookupElementsConverter {
+class DefaultLookupElementsConverter implements LookupElementsConverter<Object> {
     @Override
     LookupElement[] convert(final obj) {
         obj == null ?

@@ -6,10 +6,8 @@ import com.github.jeysal.intellij.plugin.livetemplate.scriptenginemacro.conversi
  * @author seckinger
  * @since 10/17/16
  */
-trait OptionalConverter<R> implements Converter<Object, R> {
-    R convert(final obj) {
-        obj instanceof Optional ?
-                convert(obj.orElse('empty')) :
-                super.convert(obj)
+trait OptionalConverter<R> implements Converter<Optional, R> {
+    R convert(final Optional optional) {
+        convert(optional.orElse('empty'))
     }
 }

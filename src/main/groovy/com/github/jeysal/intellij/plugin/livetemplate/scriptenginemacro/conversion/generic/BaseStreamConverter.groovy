@@ -8,10 +8,8 @@ import java.util.stream.BaseStream
  * @author seckinger
  * @since 10/17/16
  */
-trait BaseStreamConverter<R> implements Converter<Object, R> {
-    R convert(final obj) {
-        obj instanceof BaseStream ?
-                convert(obj.spliterator()) :
-                super.convert(obj)
+trait BaseStreamConverter<R> implements Converter<BaseStream, R> {
+    R convert(final BaseStream stream) {
+        convert(stream.spliterator())
     }
 }

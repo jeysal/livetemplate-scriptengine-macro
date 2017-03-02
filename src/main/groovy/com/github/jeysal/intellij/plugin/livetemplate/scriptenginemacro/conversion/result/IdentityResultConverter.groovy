@@ -6,11 +6,9 @@ import com.intellij.codeInsight.template.Result
  * @author seckinger
  * @since 10/17/16
  */
-trait IdentityResultConverter implements ResultConverter {
+trait IdentityResultConverter implements ResultConverter<Result> {
     @Override
-    Result convert(final obj) {
-        obj instanceof Result ?
-                obj :
-                super.convert(obj)
+    Result convert(final Result res) {
+        res
     }
 }

@@ -8,5 +8,5 @@ import com.intellij.codeInsight.lookup.LookupElement;
  * @since 1/6/17
  */
 @FunctionalInterface
-public interface LookupElementsConverter extends Converter<Object, LookupElement[]> {
+public interface LookupElementsConverter<T> extends Converter<T, LookupElement[]> {
 }
